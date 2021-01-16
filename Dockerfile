@@ -35,12 +35,13 @@ RUN echo "Installing additional software" \
        docker-ce-cli conntrack-tools torsocks iptables   \
        which wget zip unzip jq tar passwd openssl openssh openssh-server squid \
        bash sshpass hostname curl ca-certificates libstdc++ git zip unzip sed vim-enhanced \
-       python37 sshuttle  bash zsh procps rsync mc htop skopeo ansible findutils jq k6 bzip2 \
+       python37 gcc python3-devel sshuttle  bash zsh procps rsync mc htop skopeo ansible findutils jq k6 bzip2 \
        shadow-utils iptraf tcpdump net-tools httpie \
-    && rpm -ivh https://packagecloud.io/datawireio/telepresence/packages/fedora/31/telepresence-0.108-1.x86_64.rpm/download.rpm --nodeps \
-    #&& pip install --upgrade pip sshuttle \
-    #update python due to CVE' https://alas.aws.amazon.com/AL2/ALAS-2020-1483.html
+       #update python due to CVE' https://alas.aws.amazon.com/AL2/ALAS-2020-1483.html
+       #RUN echo "Upgrade Python SSHUTTLE" \
     && yum -y update python \
+    && rpm -ivh https://packagecloud.io/datawireio/telepresence/packages/fedora/31/telepresence-0.108-1.x86_64.rpm/download.rpm --nodeps \
+    && pip3 install --upgrade pip sshuttle \
     && yum -y clean all     \
     && rm -rf /var/lib/{cache,log} /var/log/lastlog /opt/couchbase/samples /usr/bin/dockerd-ce /usr/bin/containerd \
     && mkdir /var/log/lastlog
@@ -144,6 +145,7 @@ RUN echo "Install JAVA MAVEN" \
     && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk install maven' \
     && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk install gradle 6.0.1' \
     && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls java && sdk install java 8.0.275-amzn' \
+    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls java && sdk install java 11.0.9-amzn'  \
     && rm -rf /root/.sdkman/archives \
     && mkdir -p /root/.sdkman/archives
 
