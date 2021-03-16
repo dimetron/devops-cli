@@ -3,8 +3,10 @@ FROM amazonlinux:latest
 LABEL maintainer="Dmytro Rashko <drashko@me.com>"
 
 ## Environment variables required for this build (do NOT change)
-ENV VERSION_HELM2=2.16.1
-ENV VERSION_HELM3=3.4.2
+ENV VERSION_HELM3=3.5.1
+ENV VERSION_KIND=0.10.0
+ENV VERSION_TERRAFORM=0.14.5
+
 #https://github.com/helm/helm/releases
 
 ENV SDKMAN_DIR=/root/.sdkman
@@ -30,6 +32,7 @@ RUN echo "Installing additional software" \
     && yum -y install yum-plugin-copr \
     && yum -y copr enable lsm5/container-selinux \
     && yum -y update  \
+    && yum -y upgrade  \
     && yum -y install \
        yum-utils device-mapper-persistent-data lvm2 sudo \
        docker-ce-cli conntrack-tools torsocks iptables   \
@@ -37,10 +40,10 @@ RUN echo "Installing additional software" \
        bash sshpass hostname curl ca-certificates libstdc++ git zip unzip sed vim-enhanced \
        python37 gcc python3-devel sshuttle  bash zsh procps rsync mc htop skopeo ansible findutils jq k6 bzip2 \
        shadow-utils iptraf tcpdump net-tools httpie \
+    && rpm -ivh https://packagecloud.io/datawireio/telepresence/packages/fedora/31/telepresence-0.108-1.x86_64.rpm/download.rpm --nodeps \
+    #&& pip install --upgrade pip sshuttle \
     #update python due to CVE' https://alas.aws.amazon.com/AL2/ALAS-2020-1483.html
     && yum -y update python \
-    && pip3 install --upgrade pip sshuttle \
-    #&& curl -s https://packagecloud.io/install/repositories/datawireio/telepresence/script.rpm.sh | sudo bash
     && yum -y clean all     \
     && rm -rf /var/lib/{cache,log} /var/log/lastlog /opt/couchbase/samples /usr/bin/dockerd-ce /usr/bin/containerd \
     && mkdir /var/log/lastlog
@@ -50,14 +53,9 @@ RUN echo "Verify required tools installed" \
     && which skopeo \
     && which sshuttle
 
-RUN curl -sLo ./kind "https://github.com/kubernetes-sigs/kind/releases/download/v0.10.0/kind-$(uname)-amd64" \
+RUN curl -sLo ./kind "https://github.com/kubernetes-sigs/kind/releases/download/v${VERSION_KIND}/kind-$(uname)-amd64" \
     && mv kind  /usr/bin \
     && chmod +x /usr/bin/kind
-
-RUN curl -sL "${HELM2_BASE_URL}/${HELM2_TAR_FILE}" | tar xvz && \
-    mv linux-amd64/helm /usr/bin/helm2 && \
-    chmod +x /usr/bin/helm2 &&            \
-    rm -rf linux-amd64
 
 RUN curl -sL "${HELM3_BASE_URL}/${HELM3_TAR_FILE}" | tar xvz && \
     mv linux-amd64/helm /usr/bin/helm3 && \
@@ -67,7 +65,7 @@ RUN curl -sL "${HELM3_BASE_URL}/${HELM3_TAR_FILE}" | tar xvz && \
 RUN ln -s /usr/bin/helm3 /usr/bin/helm
 
 #install terraform
-RUN curl -sL "https://releases.hashicorp.com/terraform/0.13.4/terraform_0.13.4_linux_amd64.zip" -o terraform.zip \
+RUN curl -sL "https://releases.hashicorp.com/terraform/$VERSION_TERRAFORM/terraform_${VERSION_TERRAFORM}_linux_amd64.zip" -o terraform.zip \
     && unzip terraform.zip -d /usr/bin \
     && chmod +x /usr/bin \
     && rm -f terraform.zip
@@ -197,7 +195,7 @@ RUN echo "Create default ssh keys " \
     && echo 'source kubectl.zsh'  >> .zshrc \
     && echo "RPROMPT='%{\$fg[blue]%}(\$ZSH_KUBECTL_NAMESPACE)%{\$reset_color%}'" >> .zshrc \
     && sed 's/\(^plugins=([^)]*\)/\1 kubectl/' -i .zshrc \
-    && sed 's/robbyrussell/af-magic/g' -i .zshrc 
+    && sed 's/robbyrussell/af-magic/g' -i .zshrc
 
 #COPY rootfs /
 #ENTRYPOINT ["/entrypoint.sh"]
