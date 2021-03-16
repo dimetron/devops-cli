@@ -33,14 +33,14 @@ RUN echo "Installing additional software" \
     && yum -y install \
        yum-utils device-mapper-persistent-data lvm2 sudo \
        docker-ce-cli conntrack-tools torsocks iptables   \
-       which wget zip unzip jq tar passwd openssl openssh openssh-server squid \
+       which wget zip unzip jq tar passwd openssl openssh openssh-server squid dnsmasq \
        bash sshpass hostname curl ca-certificates libstdc++ git zip unzip sed vim-enhanced \
-       python37 sshuttle  bash zsh procps rsync mc htop skopeo ansible findutils jq k6 bzip2 \
+       python37 gcc python3-devel sshuttle  bash zsh procps rsync mc htop skopeo ansible findutils jq k6 bzip2 \
        shadow-utils iptraf tcpdump net-tools httpie \
-    && rpm -ivh https://packagecloud.io/datawireio/telepresence/packages/fedora/31/telepresence-0.108-1.x86_64.rpm/download.rpm --nodeps \
-    #&& pip install --upgrade pip sshuttle \
     #update python due to CVE' https://alas.aws.amazon.com/AL2/ALAS-2020-1483.html
     && yum -y update python \
+    && pip3 install --upgrade pip sshuttle \
+    #&& curl -s https://packagecloud.io/install/repositories/datawireio/telepresence/script.rpm.sh | sudo bash
     && yum -y clean all     \
     && rm -rf /var/lib/{cache,log} /var/log/lastlog /opt/couchbase/samples /usr/bin/dockerd-ce /usr/bin/containerd \
     && mkdir /var/log/lastlog
@@ -50,7 +50,7 @@ RUN echo "Verify required tools installed" \
     && which skopeo \
     && which sshuttle
 
-RUN curl -sLo ./kind "https://github.com/kubernetes-sigs/kind/releases/download/v0.9.0/kind-$(uname)-amd64" \
+RUN curl -sLo ./kind "https://github.com/kubernetes-sigs/kind/releases/download/v0.10.0/kind-$(uname)-amd64" \
     && mv kind  /usr/bin \
     && chmod +x /usr/bin/kind
 
@@ -95,11 +95,6 @@ RUN curl -sLO "https://github.com/bcicen/ctop/releases/download/v0.7.5/ctop-0.7.
     mv ctop-0.7.5-linux-amd64 /usr/bin/ctop && \
     chmod +x /usr/bin/ctop
 
-#yq https://github.com/mikefarah/yq/releases
-RUN curl -sLO "https://github.com/mikefarah/yq/releases/download/4.1.0/yq_linux_amd64" && \
-    mv yq_linux_amd64 /usr/bin/yq && \
-    chmod +x /usr/bin/yq
-
 #ktail
 RUN curl -sLO "https://github.com/atombender/ktail/releases/download/v1.0.1/ktail-linux-amd64" && \
     mv ktail-linux-amd64 /usr/bin/ktail && \
@@ -138,12 +133,12 @@ RUN curl -sL "https://github.com/weaveworks/eksctl/releases/latest/download/eksc
     mv /tmp/eksctl /usr/local/bin && \
     chmod +x /usr/local/bin/eksctl
 
-#install maven and java 8
+#install maven and java 11
 RUN echo "Install JAVA MAVEN" \
     && zsh -c 'set +x;source /root/.sdkman/bin/sdkman-init.sh' \
     && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk install maven' \
     && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk install gradle 6.0.1' \
-    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls java && sdk install java 8.0.275-amzn' \
+    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls java && sdk install java 11.0.10.9.1-amzn' \
     && rm -rf /root/.sdkman/archives \
     && mkdir -p /root/.sdkman/archives
 
@@ -155,10 +150,11 @@ ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.sdk
 #    rm -rf openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit*
 
 #oc kubectl - has some slowness
-RUN curl -sL "https://github.com/openshift/okd/releases/download/4.5.0-0.okd-2020-10-15-235428/openshift-client-linux-4.5.0-0.okd-2020-10-15-235428.tar.gz" | tar xvz && \
+#RUN curl -sL "https://github.com/openshift/okd/releases/download/4.5.0-0.okd-2020-10-15-235428/openshift-client-linux-4.5.0-0.okd-2020-10-15-235428.tar.gz" | tar xvz && \
+RUN curl -sL "https://github.com/openshift/okd/releases/download/4.6.0-0.okd-2021-01-23-132511/openshift-client-linux-4.6.0-0.okd-2021-01-23-132511.tar.gz" | tar xvz && \
     cp oc /usr/bin/ && \
     cp kubectl /usr/bin/ && \
-    rm -rf  openshift-client-linux-4.5.0-0.okd-2020-09-18-202631*
+    rm -rf  openshift-client-linux-*
 
 #install krew for kubectl - seems depends on latest k
 #https://github.com/kubernetes-sigs/krew-index/blob/master/plugins.md
@@ -181,7 +177,10 @@ RUN echo "Setup SSH server defaults" \
   && cat /etc/ssh/sshd_config
 
 #fix sshuttle
-RUN pip3 install --upgrade pip sshuttle
+RUN pip3 install --upgrade pip sshuttle yq
+
+RUN curl -sL "https://github.com/derailed/popeye/releases/download/v0.9.0/popeye_Linux_arm64.tar.gz" | tar xvz && \
+    mv popeye /usr/bin
 
 #add dimetron user
 ADD https://github.com/dimetron.keys /root/.ssh/authorized_keys
@@ -189,6 +188,7 @@ ADD kubectl.zsh /root/
 RUN echo "Create default ssh keys " \
     && passwd -d root    \
     && ssh-keygen -A     \
+    && echo "export TERM=xterm-256color" >> .zshrc \
     && echo "alias vi=vim"    >> .zshrc \
     && echo "alias k=kubectl" >> .zshrc \
     && echo "alias kns='kubectl config set-context --current --namespace'" >> .zshrc \
@@ -196,7 +196,8 @@ RUN echo "Create default ssh keys " \
     && echo 'complete -F __start_kubectl k'    >> .zshrc \
     && echo 'source kubectl.zsh'  >> .zshrc \
     && echo "RPROMPT='%{\$fg[blue]%}(\$ZSH_KUBECTL_NAMESPACE)%{\$reset_color%}'" >> .zshrc \
-    && sed 's/\(^plugins=([^)]*\)/\1 kubectl/' -i .zshrc
+    && sed 's/\(^plugins=([^)]*\)/\1 kubectl/' -i .zshrc \
+    && sed 's/robbyrussell/af-magic/g' -i .zshrc 
 
 #COPY rootfs /
 #ENTRYPOINT ["/entrypoint.sh"]
