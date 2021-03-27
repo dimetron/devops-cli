@@ -3,9 +3,9 @@ FROM amazonlinux:latest
 LABEL maintainer="Dmytro Rashko <drashko@me.com>"
 
 ## Environment variables required for this build (do NOT change)
-ENV VERSION_HELM3=3.5.1
+ENV VERSION_HELM3=3.5.2
 ENV VERSION_KIND=0.10.0
-ENV VERSION_TERRAFORM=0.14.5
+ENV VERSION_TERRAFORM=0.14.9
 
 #https://github.com/helm/helm/releases
 
@@ -36,7 +36,7 @@ RUN echo "Installing additional software" \
     && yum -y install \
        yum-utils device-mapper-persistent-data lvm2 sudo \
        docker-ce-cli conntrack-tools torsocks iptables   \
-       which wget zip unzip jq tar passwd openssl openssh openssh-server squid dnsmasq \
+       which wget zip unzip jq tar passwd openssl openssh openssh-server squid dnsmasq socat ping \
        bash sshpass hostname curl ca-certificates libstdc++ git zip unzip sed vim-enhanced \
        python37 gcc python3-devel sshuttle  bash zsh procps rsync mc htop skopeo ansible findutils jq k6 bzip2 \
        shadow-utils iptraf tcpdump net-tools httpie \
@@ -85,8 +85,12 @@ RUN curl -s "https://get.sdkman.io" | /bin/bash && \
     echo "sdkman_insecure_ssl=true" >> $SDKMAN_DIR/etc/config
 
 #k9s https://github.com/derailed/k9s/releases
-RUN curl -sL "https://github.com/derailed/k9s/releases/download/v0.24.2/k9s_Linux_x86_64.tar.gz" | tar xvz && \
+RUN curl -sL "https://github.com/derailed/k9s/releases/download/v0.24.5/k9s_Linux_x86_64.tar.gz" | tar xvz && \
     mv k9s /usr/bin
+
+#popeye
+RUN curl -sL "https://github.com/derailed/popeye/releases/download/v0.9.0/popeye_Linux_arm64.tar.gz" | tar xvz && \
+    mv popeye /usr/bin
 
 #ctop https://github.com/bcicen/ctop/releases/tag/v0.7.5
 RUN curl -sLO "https://github.com/bcicen/ctop/releases/download/v0.7.5/ctop-0.7.5-linux-amd64" && \
@@ -99,7 +103,7 @@ RUN curl -sLO "https://github.com/atombender/ktail/releases/download/v1.0.1/ktai
     chmod +x /usr/bin/ktail
 
 #kapp
-RUN curl -sLO "https://github.com/k14s/kapp/releases/download/v0.35.0/kapp-linux-amd64" && \
+RUN curl -sLO "https://github.com/k14s/kapp/releases/download/v0.36.0/kapp-linux-amd64" && \
     mv kapp-linux-amd64 /usr/bin/kapp && \
     chmod +x /usr/bin/kapp
 
@@ -122,7 +126,7 @@ RUN curl -sLO "https://releases.hashicorp.com/vault/1.6.1/vault_1.6.1_linux_amd6
     chmod +x /usr/bin/vault
 
 #aws auth
-RUN curl -sL -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/linux/amd64/aws-iam-authenticator && \
+RUN curl -sL -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2020-08-04/bin/linux/amd64/aws-iam-authenticator && \
     mv aws-iam-authenticator /usr/bin && \
     chmod +x /usr/bin/aws-iam-authenticator
 
@@ -135,7 +139,7 @@ RUN curl -sL "https://github.com/weaveworks/eksctl/releases/latest/download/eksc
 RUN echo "Install JAVA MAVEN" \
     && zsh -c 'set +x;source /root/.sdkman/bin/sdkman-init.sh' \
     && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk install maven' \
-    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk install gradle 6.0.1' \
+    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk install gradle 6.8.3' \
     && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls java && sdk install java 11.0.10.9.1-amzn' \
     && rm -rf /root/.sdkman/archives \
     && mkdir -p /root/.sdkman/archives
@@ -156,16 +160,21 @@ RUN curl -sL "https://github.com/openshift/okd/releases/download/4.6.0-0.okd-202
 
 #install krew for kubectl - seems depends on latest k
 #https://github.com/kubernetes-sigs/krew-index/blob/master/plugins.md
-#RUN curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew.{tar.gz,yaml}" \
-#    && tar zxvf krew.tar.gz ; cat krew.yaml \
-#    && ./krew-linux_amd64 install --manifest=krew.yaml --archive=krew.tar.gz \
-#    && ./krew-linux_amd64 update \
-#    && cp ./krew-linux_amd64 /usr/bin/krew && chmod +x /usr/bin/krew \
-#    && rm -rf krew* \
-#    && /usr/bin/krew install ctx     \
-#    && /usr/bin/krew install ns      \
-#    && /usr/bin/krew install images  \
-#    && /usr/bin/krew list
+#https://github.com/kubernetes-sigs/krew/releases/download/v0.4.1/krew.tar.gz
+RUN curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.4.1/krew.yaml" && \
+    curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.4.1/krew.tar.gz"  \
+    && tar zxvf krew.tar.gz ; cat krew.yaml ; mkdir -p /root/.krew/bin \
+    && ./krew-linux_amd64 install --manifest=krew.yaml --archive=krew.tar.gz \
+    && ./krew-linux_amd64 update            \
+    && rm -rf krew*                         \
+    && kubectl krew install ctx            \
+    && kubectl krew install ns             \
+    && kubectl krew install images         \
+    && kubectl krew install ingress-nginx  \
+    && kubectl plugin list
+
+#fix sshuttle
+RUN pip3 install --upgrade pip sshuttle yq
 
 #use openssh
 RUN echo "Setup SSH server defaults" \
@@ -174,11 +183,7 @@ RUN echo "Setup SSH server defaults" \
   && sed -i s/#AllowTcpForwarding.*/AllowTcpForwarding\ yes/ /etc/ssh/sshd_config  \
   && cat /etc/ssh/sshd_config
 
-#fix sshuttle
-RUN pip3 install --upgrade pip sshuttle yq
 
-RUN curl -sL "https://github.com/derailed/popeye/releases/download/v0.9.0/popeye_Linux_arm64.tar.gz" | tar xvz && \
-    mv popeye /usr/bin
 
 #add dimetron user
 ADD https://github.com/dimetron.keys /root/.ssh/authorized_keys

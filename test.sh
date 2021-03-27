@@ -1,9 +1,10 @@
 #!/bin/bash
 export IMAGE_NAME=devops-cli
-export IMAGE_VER=2.30
+export IMAGE_VER=2.31
 
 curl -sLO https://github.com/dimetron.keys
 
+docker rm -f $IMAGE_NAME
 docker build . -t dimetron/$IMAGE_NAME:$IMAGE_VER
 
 docker rm -f $IMAGE_NAME 
