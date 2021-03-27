@@ -36,9 +36,9 @@ RUN echo "Installing additional software" \
     && yum -y install \
        yum-utils device-mapper-persistent-data lvm2 sudo \
        docker-ce-cli conntrack-tools torsocks iptables   \
-       which wget zip unzip jq tar passwd openssl openssh openssh-server squid dnsmasq socat ping \
-       bash sshpass hostname curl ca-certificates libstdc++ git zip unzip sed vim-enhanced \
-       python37 gcc python3-devel sshuttle  bash zsh procps rsync mc htop skopeo ansible findutils jq k6 bzip2 \
+       which wget zip unzip jq tar passwd openssl openssh openssh-server squid dnsmasq socat tmux iputils       \
+       bash sshpass hostname curl ca-certificates libstdc++ git zip unzip sed vim-enhanced                      \
+       python37 gcc python3-devel sshuttle  bash zsh procps rsync mc htop skopeo ansible findutils jq k6 bzip2  \
        shadow-utils iptraf tcpdump net-tools httpie \
     && rpm -ivh https://packagecloud.io/datawireio/telepresence/packages/fedora/31/telepresence-0.108-1.x86_64.rpm/download.rpm --nodeps \
     #&& pip install --upgrade pip sshuttle \
@@ -126,8 +126,8 @@ RUN curl -sLO "https://releases.hashicorp.com/vault/1.6.1/vault_1.6.1_linux_amd6
     chmod +x /usr/bin/vault
 
 #aws auth
-RUN curl -sL -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2020-08-04/bin/linux/amd64/aws-iam-authenticator && \
-    mv aws-iam-authenticator /usr/bin && \
+RUN curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/aws-iam-authenticator && \
+    mv aws-iam-authenticator /usr/bin/aws-iam-authenticator && \
     chmod +x /usr/bin/aws-iam-authenticator
 
 #eksctl
@@ -146,12 +146,6 @@ RUN echo "Install JAVA MAVEN" \
 
 ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.sdkman/bin:/root/.sdkman/candidates/gradle/current/bin:/root/.sdkman/candidates/maven/current/bin:/root/.krew/bin
 
-# Add oc
-#RUN curl -sL "https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz" | tar xvz && \
-#    cp openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/* /usr/bin/ && \
-#    rm -rf openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit*
-
-#oc kubectl - has some slowness
 #RUN curl -sL "https://github.com/openshift/okd/releases/download/4.5.0-0.okd-2020-10-15-235428/openshift-client-linux-4.5.0-0.okd-2020-10-15-235428.tar.gz" | tar xvz && \
 RUN curl -sL "https://github.com/openshift/okd/releases/download/4.6.0-0.okd-2021-01-23-132511/openshift-client-linux-4.6.0-0.okd-2021-01-23-132511.tar.gz" | tar xvz && \
     cp oc /usr/bin/ && \
@@ -182,8 +176,6 @@ RUN echo "Setup SSH server defaults" \
   && sed -i s/#PermitTunnel.*/PermitTunnel\ yes/ /etc/ssh/sshd_config  \
   && sed -i s/#AllowTcpForwarding.*/AllowTcpForwarding\ yes/ /etc/ssh/sshd_config  \
   && cat /etc/ssh/sshd_config
-
-
 
 #add dimetron user
 ADD https://github.com/dimetron.keys /root/.ssh/authorized_keys
