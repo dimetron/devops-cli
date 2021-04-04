@@ -3,6 +3,7 @@ FROM amazonlinux:latest
 LABEL maintainer="Dmytro Rashko <drashko@me.com>"
 
 ## Environment variables required for this build (do NOT change)
+ENV IMAGE_VER=2.33
 ENV VERSION_HELM3=3.5.2
 ENV VERSION_KIND=0.10.0
 ENV VERSION_TERRAFORM=0.14.9
@@ -66,9 +67,16 @@ RUN ln -s /usr/bin/helm3 /usr/bin/helm
 
 #install terraform
 RUN curl -sL "https://releases.hashicorp.com/terraform/$VERSION_TERRAFORM/terraform_${VERSION_TERRAFORM}_linux_amd64.zip" -o terraform.zip \
-    && unzip terraform.zip -d /usr/bin \
-    && chmod +x /usr/bin \
+    && unzip terraform.zip \
+    && mv terraform /usr/bin/terraform \
+    && chmod +x /usr/bin/terraform \
     && rm -f terraform.zip
+
+#install terragrunt
+RUN curl -sL "https://github.com/gruntwork-io/terragrunt/releases/download/v0.28.18/terragrunt_linux_amd64" -o terragrunt_linux_amd64 \
+    && mv terragrunt_linux_amd64 /usr/bin/terragrunt \
+    && chmod +x /usr/bin/terragrunt \
+    && rm -f terragrunt.zip
 
 #add aws
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
@@ -85,7 +93,9 @@ RUN curl -s "https://get.sdkman.io" | /bin/bash && \
     echo "sdkman_insecure_ssl=true" >> $SDKMAN_DIR/etc/config
 
 #k9s https://github.com/derailed/k9s/releases
-RUN curl -sL "https://github.com/derailed/k9s/releases/download/v0.24.5/k9s_Linux_x86_64.tar.gz" | tar xvz && \
+RUN mkdir -p /root/.k9s && \
+    curl -sL "https://raw.githubusercontent.com/derailed/k9s/master/skins/stock.yml" -o /root/.k9s/skin.yaml && \
+    curl -sL "https://github.com/derailed/k9s/releases/download/v0.24.7/k9s_Linux_x86_64.tar.gz" | tar xvz      && \
     mv k9s /usr/bin
 
 #popeye
@@ -126,9 +136,9 @@ RUN curl -sLO "https://releases.hashicorp.com/vault/1.6.1/vault_1.6.1_linux_amd6
     chmod +x /usr/bin/vault
 
 #aws auth
-RUN curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/aws-iam-authenticator && \
-    mv aws-iam-authenticator /usr/bin/aws-iam-authenticator && \
-    chmod +x /usr/bin/aws-iam-authenticator
+#RUN curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/aws-iam-authenticator && \
+#    mv aws-iam-authenticator /usr/bin/aws-iam-authenticator && \
+#    chmod +x /usr/bin/aws-iam-authenticator
 
 #eksctl
 RUN curl -sL "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp && \
@@ -172,10 +182,14 @@ RUN pip3 install --upgrade pip sshuttle yq
 
 #use openssh
 RUN echo "Setup SSH server defaults" \
-  && sed -i s/#PermitRootLogin.*/PermitRootLogin\ yes/ /etc/ssh/sshd_config  \
-  && sed -i s/#PermitTunnel.*/PermitTunnel\ yes/ /etc/ssh/sshd_config  \
-  && sed -i s/#AllowTcpForwarding.*/AllowTcpForwarding\ yes/ /etc/ssh/sshd_config  \
-  && cat /etc/ssh/sshd_config
+  && sed s/PasswordAuthentication.*/PasswordAuthentication\ no/ -i /etc/ssh/sshd_config  \
+  && sed s/GSSAPIAuthentication.*/GSSAPIAuthentication\ no/     -i /etc/ssh/sshd_config  \
+  && sed s/#AllowTcpForwarding.*/AllowTcpForwarding\ yes/       -i /etc/ssh/sshd_config  \
+  && sed s/#AllowAgentForwarding.*/AllowAgentForwarding\ yes/   -i /etc/ssh/sshd_config  \
+  && sed s/#PermitRootLogin.*/PermitRootLogin\ yes/             -i /etc/ssh/sshd_config  \
+  && sed s/#PermitTunnel.*/PermitTunnel\ yes/                   -i /etc/ssh/sshd_config  \
+  && sed s/#UseDNS.*/UseDNS\ no/                                -i /etc/ssh/sshd_config  \
+  && cat /etc/ssh/sshd_config | grep yes
 
 #add dimetron user
 ADD https://github.com/dimetron.keys /root/.ssh/authorized_keys
