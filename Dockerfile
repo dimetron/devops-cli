@@ -38,7 +38,7 @@ RUN echo "Installing additional software" \
        yum-utils device-mapper-persistent-data lvm2 sudo \
        docker-ce-cli conntrack-tools torsocks iptables   \
        which wget zip unzip jq tar passwd openssl openssh openssh-server squid dnsmasq socat tmux iputils       \
-       bash sshpass hostname curl ca-certificates libstdc++ git zip unzip sed vim-enhanced                      \
+       bash sshpass hostname curl ca-certificates libstdc++ git zip unzip sed vim-enhanced mosh                 \
        python37 gcc python3-devel sshuttle  bash zsh procps rsync mc htop skopeo ansible findutils jq k6 bzip2  \
        shadow-utils iptraf tcpdump net-tools httpie \
     && rpm -ivh https://packagecloud.io/datawireio/telepresence/packages/fedora/31/telepresence-0.108-1.x86_64.rpm/download.rpm --nodeps \
