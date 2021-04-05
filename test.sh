@@ -1,6 +1,6 @@
 #!/bin/bash
 export IMAGE_NAME=devops-cli
-export IMAGE_VER=2.33
+export IMAGE_VER=2.34
 
 curl -sLO https://github.com/dimetron.keys
 

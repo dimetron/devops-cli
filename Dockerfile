@@ -3,7 +3,7 @@ FROM amazonlinux:latest
 LABEL maintainer="Dmytro Rashko <drashko@me.com>"
 
 ## Environment variables required for this build (do NOT change)
-ENV IMAGE_VER=2.33
+ENV IMAGE_VER=2.34
 ENV VERSION_HELM3=3.5.2
 ENV VERSION_KIND=0.10.0
 ENV VERSION_TERRAFORM=0.14.9
