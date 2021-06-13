@@ -2,6 +2,7 @@ dimetron.keys
 
 .gradle
 /build/
+/tmp/
 
 # Ignore Gradle GUI config
 gradle-app.setting
