@@ -4,7 +4,7 @@ FROM $BASE_IMAGE
 LABEL maintainer="Dmytro Rashko <drashko@me.com>"
 
 ## Environment variables required for this build (do NOT change)
-ENV IMAGE_VER=2.35
+ENV IMAGE_VER=2.37
 ENV VERSION_HELM3=3.6.0
 ENV VERSION_KIND=0.10.0       
 ENV VERSION_TERRAFORM=1.0.0
