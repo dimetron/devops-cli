@@ -28,6 +28,5 @@ docker exec -it $IMAGE_NAME k9s
 docker exec -it $IMAGE_NAME zsh
 
 #test skopeo
-docker exec -it $IMAGE_NAME skopeo --tmpdir=/root/tmp inspect docker://dimetron/$IMAGE_NAME:$IMAGE_VER
 docker exec -it $IMAGE_NAME skopeo --tmpdir=/root/tmp inspect docker-daemon:dimetron/$IMAGE_NAME:$IMAGE_VER
 docker scan dimetron/$IMAGE_NAME:$IMAGE_VER

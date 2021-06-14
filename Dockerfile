@@ -55,6 +55,7 @@ RUN echo "Installing packages" \
     iptables                \
     jq                      \
     mc                      \
+    libc6-compat            \
     net-tools               \
     openssh                 \
     openssh-client          \
