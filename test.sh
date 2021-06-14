@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export IMAGE_NAME=devops-cli
-export IMAGE_VER=2.37-rc
+export IMAGE_VER=2.37-alpine
 
 set -x
 set -e

@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=ubuntu:21.04
+ARG BASE_IMAGE=alpine:latest
 FROM $BASE_IMAGE
 
 LABEL maintainer="Dmytro Rashko <drashko@me.com>"
@@ -34,34 +34,32 @@ WORKDIR /root
 
 #COPY docker-ce.repo /etc/dnf.repos.d/docker-ce.repo
 RUN echo "Installing packages" \
-    && apt-get -y update    \
-    && apt-get -y upgrade   \
-    && apt-get -y install   \
+    && apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing   sshuttle  kubectl \
+    && apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/community iptraf-ng  \
+    && apk update && apk add --no-cache   \
+    docker-cli              \
     ansible                 \
-    apt-utils               \
-    apt-transport-https     \
     bash                    \
     bzip2                   \
+    bind-tools              \
     ca-certificates         \
     curl                    \
     dnsmasq                 \
     findutils               \
-    gcc                     \
+    gettext                 \
     git                     \
     gnupg                   \
-    hostname                \
+    kubectl                 \
     htop                    \
     httpie                  \
     iptables                \
-    iptraf                  \
     jq                      \
-    lsb-release             \
     mc                      \
     net-tools               \
+    openssh                 \
     openssh-client          \
     openssh-server          \
     openssl                 \
-    passwd                  \
     procps                  \
     python3                 \
     rsync                   \
@@ -70,7 +68,6 @@ RUN echo "Installing packages" \
     socat                   \
     squid                   \
     sshpass                 \
-    sshuttle                \
     sudo                    \
     tar                     \
     tcpdump                 \
@@ -80,14 +77,7 @@ RUN echo "Installing packages" \
     vim                     \
     wget                    \
     zip                     \
-    zsh                     \
-    && echo " ---------- Docker ----------"                                                                                     \
-    && curl -o  docker-ce-cli.deb -L https://download.docker.com/linux/ubuntu/dists/hirsute/pool/stable/amd64/docker-ce-cli_20.10.7~3-0~ubuntu-hirsute_amd64.deb \
-    && dpkg -i  docker-ce-cli.deb                                                                                               \
-    && apt  -y  clean all                                                                                                       \
-    && rm   -rf *.deb                                                                                                           \
-    && rm   -rf /var/lib/{cache,log} /var/log/lastlog                                                                           \
-    && mkdir    /var/log/lastlog
+    zsh
 
 RUN echo "Utils"                                                                                                                \
     && curl -sLo ./kind "https://github.com/kubernetes-sigs/kind/releases/download/v${VERSION_KIND}/kind-$(uname)-amd64"        \
@@ -131,7 +121,7 @@ RUN echo "Utils"                                                                
     && chmod +x /usr/bin/ytt                                                                                                                \
     && curl -sLO "https://github.com/tektoncd/cli/releases/download/v0.19.0/tkn_0.19.0_Linux_x86_64.tar.gz"                                 \
     && tar xvzf tkn_0.19.0_Linux_x86_64.tar.gz -C /usr/bin tkn                                                                              \
-    && rm -rd tkn_0.19.0_Linux_x86_64.tar.gz                                                                                                \
+    && rm -rf tkn_0.19.0_Linux_x86_64.tar.gz                                                                                                \
     && chmod +x /usr/bin/tkn                                                                                                                \
     && curl -sLO "https://releases.hashicorp.com/vault/1.7.2/vault_1.7.2_linux_amd64.zip"                                                   \
     && unzip  vault_1.7.2_linux_amd64.zip                                                                                                   \
@@ -158,23 +148,24 @@ RUN curl -s "https://get.sdkman.io"         | /bin/bash                         
     && rm -rf /root/.sdkman/archives                                                                                \
     && mkdir -p /root/.sdkman/archives
 
-RUN curl -sL "https://github.com/openshift/okd/releases/download/4.7.0-0.okd-2021-06-04-191031/openshift-client-linux-4.7.0-0.okd-2021-06-04-191031.tar.gz" | tar xvz && \
-    cp oc /usr/bin/ &&                                                                                              \
-    cp kubectl /usr/bin/ &&                                                                                         \
-    rm -rf  openshift-client-linux-*
+RUN curl -sL "https://github.com/openshift/okd/releases/download/4.7.0-0.okd-2021-06-04-191031/openshift-client-linux-4.7.0-0.okd-2021-06-04-191031.tar.gz" | tar xvz \
+    && cp    -v ./oc       /usr/bin/oc                                                                      \
+    && cp    -v ./kubectl  /usr/bin/kubectl                                                                 \
+    && chmod +x            /usr/bin/oc                                                                      \
+    && chmod +x            /usr/bin/kubectl                                                                 \
+    && ls -ltr             /usr/bin/kubectl                                                                 \
+    && curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.4.1/krew.yaml"             \
+    && curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.4.1/krew.tar.gz"           \
+    && tar zxvf krew.tar.gz ; cat krew.yaml ; mkdir -p /root/.krew/bin                                      \
+    && ./krew-linux_amd64 install --manifest=krew.yaml --archive=krew.tar.gz                                \
+    && ./krew-linux_amd64 update                                                                            \
+    && /usr/bin/kubectl krew   install ctx                                                                  \
+    && /usr/bin/kubectl krew   install ns                                                                   \
+    && /usr/bin/kubectl krew   install images                                                               \
+    && /usr/bin/kubectl krew   install ingress-nginx                                                        \
+    && /usr/bin/kubectl plugin list                                                                         \                                                                                      \
+    && ls;rm -rf  krew* oc kubectl openshift-client-linux-*
 
-#krew for kubectl - seems depends on latest k
-RUN curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.4.1/krew.yaml" &&         \
-    curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.4.1/krew.tar.gz"          \
-    && tar zxvf krew.tar.gz ; cat krew.yaml ; mkdir -p /root/.krew/bin                                  \
-    && ./krew-linux_amd64 install --manifest=krew.yaml --archive=krew.tar.gz                            \
-    && ./krew-linux_amd64 update                                                                        \
-    && rm -rf krew*                                                                                     \
-    && kubectl krew install ctx                                                                         \
-    && kubectl krew install ns                                                                          \
-    && kubectl krew install images                                                                      \
-    && kubectl krew install ingress-nginx                                                               \
-    && kubectl plugin list
 
 RUN curl -fL https://app.getambassador.io/download/tel2/linux/amd64/latest/telepresence -o /usr/local/bin/telepresence \
     && chmod a+x /usr/local/bin/telepresence
@@ -209,7 +200,8 @@ RUN echo "Create default ssh keys "                                             
 
 #COPY rootfs /
 #ENTRYPOINT ["/entrypoint.sh"]
-RUN groupadd -r devops
+#RUN groupadd -r devops
+
 
 RUN echo " ---------- Verify ----------"    \
     && which docker                         \
