@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export IMAGE_NAME=devops-cli
-export IMAGE_VER=2.38-rc
+export IMAGE_VER=2.39-rc
 
 set -x
 set -e

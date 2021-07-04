@@ -4,10 +4,10 @@ FROM $BASE_IMAGE
 LABEL maintainer="Dmytro Rashko <drashko@me.com>"
 
 ## Environment variables required for this build (do NOT change)
-ENV IMAGE_VER=2.38
+ENV IMAGE_VER=2.39
 
 ARG VERSION_HELM3=3.6.0
-ARG VERSION_KIND=0.10.0
+ARG VERSION_KIND=0.11.1
 ARG VERSION_TERRAFORM=1.0.0
 ARG VERSION_KUSTOMIZE=v4.1.2
 ARG VERSION_KUBESEAL=v0.16.0
@@ -69,11 +69,12 @@ RUN echo "Utils"                                                                
     && rm -f terragrunt.zip                                                                                                                     \
     && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"                                                        \
     && unzip awscliv2.zip -d ./aws/                                                                                                             \
+    && ./aws/aws/install                                                                                                                        \
     && rm -rf  ./aws /root/awscliv2.zip                                                                                                         \
     && sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"                                               \
     && mkdir -p /root/.k9s                                                                                                                      \
     && curl -sL "https://raw.githubusercontent.com/derailed/k9s/master/skins/stock.yml" -o /root/.k9s/skin.yaml                                 \
-    && curl -sL "https://github.com/derailed/k9s/releases/download/v0.24.7/k9s_Linux_x86_64.tar.gz" | tar xvz                                   \
+    && curl -sL "https://github.com/derailed/k9s/releases/download/v0.24.13/k9s_Linux_x86_64.tar.gz" | tar xvz                                   \
     && mv k9s /usr/bin                                                                                                                          \
     && curl -sL "https://github.com/derailed/popeye/releases/download/v0.9.0/popeye_Linux_arm64.tar.gz" | tar xvz                               \
     && mv popeye /usr/bin                                                                                                                       \
@@ -98,9 +99,13 @@ RUN echo "Utils"                                                                
     && rm -rf vault_1.7.2_linux_amd64.zip                                                                                                       \
     && mv vault /usr/bin                                                                                                                        \
     && chmod +x /usr/bin/vault                                                                                                                  \
-    && curl -sL "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp                \
-    && mv /tmp/eksctl /usr/local/bin                                                                                                            \
-    && chmod +x /usr/local/bin/eksctl
+    && curl -sL "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp                  \
+    && mv /tmp/eksctl /usr/local/bin                                                                                                              \
+    && chmod +x /usr/local/bin/eksctl                                                                                                             \
+    && curl -sL https://github.com/google/go-containerregistry/releases/download/v0.5.1/go-containerregistry_Linux_x86_64.tar.gz | tar xz -C /tmp \
+    && mv /tmp/crane /usr/local/bin                                                                                                               \
+    && chmod +x /usr/local/bin/crane                                                                                                              \
+    && rm -rf /root/*
 
 RUN curl -s   'https://get.sdkman.io'                | /bin/bash                                                                                  \
     && echo   'sdkman_auto_answer=true'            > $SDKMAN_DIR/etc/config                                                                       \
@@ -111,9 +116,8 @@ RUN curl -s   'https://get.sdkman.io'                | /bin/bash                
     && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls maven  && sdk install maven  3.8.1'                                          \
     && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls gradle && sdk install gradle 7.0.2'                                          \
     && rm -rf /root/.sdkman/archives                                                                                                            \
-    && mkdir -p /root/.sdkman/archives
-
-RUN curl -sL "https://github.com/openshift/okd/releases/download/4.7.0-0.okd-2021-06-04-191031/openshift-client-linux-4.7.0-0.okd-2021-06-04-191031.tar.gz" | tar xvz \
+    && mkdir -p /root/.sdkman/archives                                                                                                          \
+    && curl -sL "https://github.com/openshift/okd/releases/download/4.7.0-0.okd-2021-06-04-191031/openshift-client-linux-4.7.0-0.okd-2021-06-04-191031.tar.gz" | tar xvz \
     && cp    -v ./oc       /usr/bin/oc                                                                                                          \
     && cp    -v ./kubectl  /usr/bin/kubectl                                                                                                     \
     && chmod +x            /usr/bin/oc                                                                                                          \
@@ -128,9 +132,10 @@ RUN curl -sL "https://github.com/openshift/okd/releases/download/4.7.0-0.okd-202
     && /usr/bin/kubectl krew   install ns                                                                                                       \
     && /usr/bin/kubectl krew   install images                                                                                                   \
     && /usr/bin/kubectl krew   install ingress-nginx                                                                                            \
-    && /usr/bin/kubectl plugin list                                                                                                             \                                                                                      \
+    && /usr/bin/kubectl plugin list                                                                                                             \                                                                                      
     && curl -sLO https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${VERSION_KUSTOMIZE}/kustomize_${VERSION_KUSTOMIZE}_linux_amd64.tar.gz \
     && tar xvzf kustomize_${VERSION_KUSTOMIZE}_linux_amd64.tar.gz                                                                               \
+    && rm       kustomize_${VERSION_KUSTOMIZE}_linux_amd64.tar.gz                                                                               \
     && mv kustomize /usr/bin/kustomize                                                                                                          \
     && chmod +x /usr/bin/kustomize                                                                                                              \
     && ls;rm -rf  krew* oc kubectl openshift-client-linux-*                                                                                     \
@@ -139,9 +144,8 @@ RUN curl -sL "https://github.com/openshift/okd/releases/download/4.7.0-0.okd-202
     && helm plugin install https://github.com/quintush/helm-unittest && rm -rf /tmp/helm-*                                                      \
     && curl -sL https://github.com/bitnami-labs/sealed-secrets/releases/download/${VERSION_KUBESEAL}/kubeseal-linux-amd64 -o kubeseal           \
     && mv kubeseal /usr/bin/kubeseal                                                                                                            \
-    && chmod +x /usr/bin/kubeseal
-
-RUN curl -fL https://app.getambassador.io/download/tel2/linux/amd64/latest/telepresence -o /usr/local/bin/telepresence                          \
+    && chmod +x /usr/bin/kubeseal                                                                                                               \
+    && curl -fL https://app.getambassador.io/download/tel2/linux/amd64/latest/telepresence -o /usr/local/bin/telepresence                       \
     && chmod a+x /usr/local/bin/telepresence
 
 #use openssh
@@ -168,10 +172,15 @@ RUN echo "Create default ssh keys"                                              
     && echo 'source <(kubectl completion zsh)' >> .zshrc                                                                                        \
     && echo 'complete -F __start_kubectl k'    >> .zshrc                                                                                        \
     && echo 'source kubectl.zsh'  >> .zshrc                                                                                                     \
-    && echo "RPROMPT='%{\$fg[blue]%}(\$ZSH_KUBECTL_NAMESPACE)%{\$reset_color%}'" >> .zshrc                                                      \
+    && echo "RPROMPT='%{\$fg[blue]%}(\$ZSH_KUBECTL_NAMESPACE)%{\$reset_color%}'"  >> .zshrc                                                      \
+    && echo 'eval $(starship init zsh)'                                           >> .zshrc                                                      \
     && sed 's/\(^plugins=([^)]*\)/\1 kubectl/' -i .zshrc                                                                                        \
-    && sed 's/robbyrussell/af-magic/g' -i .zshrc
-
+    && sed 's/robbyrussell/af-magic/g' -i .zshrc                                                                                                \
+    && sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- --yes                                                                            \
+    && mkdir -p ~/.config 
+    
+ADD starship.toml /root/.config/starship.toml
+    
 #COPY rootfs /
 #ENTRYPOINT ["/entrypoint.sh"]
 RUN groupadd -r devops
@@ -180,6 +189,7 @@ RUN echo " ---------- Verify ----------"    \
     && which docker                         \
     && which skopeo                         \
     && which sshuttle                       \
-    && which kubectl
+    && which kubectl                        \
+    && which aws
 
 CMD tail -f /dev/null

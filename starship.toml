@@ -1,0 +1,10 @@
+[python]
+disabled = true
+symbol = "👾 "
+pyenv_version_name = true
+
+[kubernetes]
+format = 'on [⛵ $context \($namespace\)](dimmed green) '
+disabled = false
+[kubernetes.context_aliases]
+"dev.local.cluster.k8s" = "dev"
