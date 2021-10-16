@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export IMAGE_NAME=devops-cli
-export IMAGE_VER=2.39-rc
+export IMAGE_VER=2.50-rc
 
 set -x
 set -e
@@ -29,4 +29,4 @@ docker exec -it $IMAGE_NAME zsh
 
 #test skopeo
 docker exec -it $IMAGE_NAME skopeo --tmpdir=/root/tmp inspect docker-daemon:dimetron/$IMAGE_NAME:$IMAGE_VER
-docker scan dimetron/$IMAGE_NAME:$IMAGE_VER
+snyk container test dimetron/$IMAGE_NAME:$IMAGE_VER
