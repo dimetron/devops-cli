@@ -24,9 +24,10 @@ ENV DEBIAN_FRONTEND="noninteractive"
 #includes all below sdk required path
 ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.sdkman/bin:/root/.sdkman/candidates/gradle/current/bin:/root/.sdkman/candidates/maven/current/bin:/root/.krew/bin
 
-# set environment variables
-RUN echo "LANG=en_US.utf-8" >> /etc/environment \
- && echo "LC_ALL=en_US.utf-8" >> /etc/environment
+# set environment variables and DNS to make build pass on Docker buildkit
+RUN echo "LANG=en_US.utf-8"   >> /etc/environment \
+ && echo "LC_ALL=en_US.utf-8" >> /etc/environment \
+ && echo "fastestmirror=1"    >> /etc/dnf/dnf.conf
 
 WORKDIR /root
 
