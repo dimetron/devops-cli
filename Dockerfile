@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=fedora:35
+ARG BASE_IMAGE=fedora:latest
 FROM $BASE_IMAGE
 
 LABEL maintainer="Dmytro Rashko <drashko@me.com>"
