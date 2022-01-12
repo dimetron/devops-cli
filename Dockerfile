@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=fedora:latest
+ARG BASE_IMAGE=fedora:35
 FROM $BASE_IMAGE
 
 LABEL maintainer="Dmytro Rashko <drashko@me.com>"
@@ -6,11 +6,13 @@ LABEL maintainer="Dmytro Rashko <drashko@me.com>"
 ## Environment variables required for this build (do NOT change)
 ENV IMAGE_VER=2.50
 
-ARG VERSION_HELM3=3.7.1
+ARG VERSION_HELM3=3.7.2
 ARG VERSION_KIND=0.11.1
-ARG VERSION_TERRAFORM=1.0.0
+ARG VERSION_TERRAFORM=1.1.3
+ARG VERSION_TERAGRUNT=v0.35.17
 ARG VERSION_KUSTOMIZE=v4.4.0
 ARG VERSION_KUBESEAL=v0.16.0
+ARG VERSION_VAULT=1.9.2
 
 ENV SDKMAN_DIR=/root/.sdkman
 ENV TERM=xterm-256color
@@ -40,8 +42,8 @@ RUN echo "Installing additional software"                                       
     && dnf -y install   docker-ce-cli oci-runtime conntrack-tools torsocks iptables                                                              \
     && dnf -y install   which wget zip unzip jq tar passwd openssl openssh openssh-server squid dnsmasq socat tmux iputils                       \
     && dnf -y install   bash sshpass hostname curl ca-certificates libstdc++ git zip unzip sed vim-enhanced                                      \
-    && dnf -y install   python37 gcc python3-devel sshuttle  bash zsh procps rsync mc htop ansible findutils jq bzip2                            \
-    && dnf -y install   shadow-utils iptraf tcpdump net-tools httpie skopeo                                                                      \
+    && dnf -y install   python37 gcc python3-devel sshuttle  bash zsh procps rsync mc htop ansible findutils jq bzip2 bat                          \
+    && dnf -y install   shadow-utils iptraf tcpdump net-tools httpie skopeo                                                                    \
     && dnf -y clean all                                                                                                                          \
     && rm -rf /var/lib/{cache,log} /var/log/lastlog /usr/bin/dockerd-ce /usr/bin/containerd                                                      \
     && mkdir /var/log/lastlog
@@ -61,7 +63,7 @@ RUN echo "Utils"      \
     && mv terraform /usr/bin/terraform                                                                                                          \
     && chmod +x /usr/bin/terraform                                                                                                              \
     && rm -f terraform.zip                                                                                                                      \
-    && curl -sL "https://github.com/gruntwork-io/terragrunt/releases/download/v0.35.3/terragrunt_linux_amd64" -o terragrunt_linux_amd64        \
+    && curl -sL "https://github.com/gruntwork-io/terragrunt/releases/download/${VERSION_TERAGRUNT}/terragrunt_linux_amd64" -o terragrunt_linux_amd64        \
     && mv terragrunt_linux_amd64 /usr/bin/terragrunt                                                                                            \
     && chmod +x /usr/bin/terragrunt                                                                                                             \
     && rm -f terragrunt.zip                                                                                                                     \
@@ -72,7 +74,7 @@ RUN echo "Utils"      \
     && sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"                                               \
     && mkdir -p /root/.config/k9s/                                                                                                                      \
     && curl -sL "https://raw.githubusercontent.com/derailed/k9s/master/skins/stock.yml" -o /root/.config/k9s/skin.yaml                                 \
-    && curl -sL "https://github.com/derailed/k9s/releases/download/v0.24.15/k9s_Linux_x86_64.tar.gz" | tar xvz                                   \
+    && curl -sL "https://github.com/derailed/k9s/releases/download/v0.25.18/k9s_Linux_x86_64.tar.gz" | tar xvz                                   \
     && mv k9s /usr/bin                                                                                                                          \
     && curl -sL "https://github.com/derailed/popeye/releases/download/v0.9.7/popeye_Linux_arm64.tar.gz" | tar xvz                               \
     && mv popeye /usr/bin                                                                                                                       \
@@ -82,25 +84,25 @@ RUN echo "Utils"      \
     && curl -sLO "https://github.com/atombender/ktail/releases/download/v1.0.1/ktail-linux-amd64"                                               \
     && mv ktail-linux-amd64 /usr/bin/ktail                                                                                                      \
     && chmod +x /usr/bin/ktail                                                                                                                  \
-    && curl -sLO "https://github.com/k14s/kapp/releases/download/v0.42.0/kapp-linux-amd64"                                                      \
+    && curl -sLO "https://github.com/k14s/kapp/releases/download/v0.44.0/kapp-linux-amd64"                                                      \
     && mv kapp-linux-amd64 /usr/bin/kapp                                                                                                        \
     && chmod +x /usr/bin/kapp                                                                                                                   \
-    && curl -sLO "https://github.com/k14s/ytt/releases/download/v0.37.0/ytt-linux-amd64"                                                        \
+    && curl -sLO "https://github.com/k14s/ytt/releases/download/v0.38.0/ytt-linux-amd64"                                                        \
     && mv ytt-linux-amd64 /usr/bin/ytt                                                                                                          \
     && chmod +x /usr/bin/ytt                                                                                                                    \
     # && curl -sLO "https://github.com/tektoncd/cli/releases/download/v0.21.0/tkn_0.21.0_Linux_x86_64.tar.gz"                                     \
     # && tar xvzf tkn_0.21.0_Linux_x86_64.tar.gz -C /usr/bin tkn                                                                                  \
     # && rm -rf tkn_0.21.0_Linux_x86_64.tar.gz                                                                                                    \
     # && chmod +x /usr/bin/tkn                                                                                                                    \
-    # && curl -sLO "https://releases.hashicorp.com/vault/1.8.4/vault_1.8.4_linux_amd64.zip"                                                       \
-    # && unzip  vault_1.8.4__linux_amd64.zip                                                                                                       \
-    # && rm -rf vault_1.8.4__linux_amd64.zip                                                                                                       \
+    && curl -sLO "https://releases.hashicorp.com/vault/${VERSION_VAULT}/vault_${VERSION_VAULT}_linux_amd64.zip"                                    \
+    && unzip  vault_${VERSION_VAULT}_linux_amd64.zip                                                                                              \
+    && rm -rf vault_${VERSION_VAULT}_linux_amd64.zip                                                                                              \
     # && mv vault /usr/bin                                                                                                                        \
     # && chmod +x /usr/bin/vault                                                                                                                  \
     # && curl -sL "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp                  \
     # && mv /tmp/eksctl /usr/local/bin                                                                                                              \
     # && chmod +x /usr/local/bin/eksctl                                                                                                             \
-    && curl -sL https://github.com/google/go-containerregistry/releases/download/v0.6.0/go-containerregistry_Linux_x86_64.tar.gz | tar xz -C /tmp \
+    && curl -sL https://github.com/google/go-containerregistry/releases/download/v0.8.0/go-containerregistry_Linux_x86_64.tar.gz | tar xz -C /tmp \
     && mv /tmp/crane /usr/local/bin                                                                                                               \
     && chmod +x /usr/local/bin/crane                                                                                                              \
     && rm -rf /root/*
@@ -110,12 +112,12 @@ RUN curl -s   'https://get.sdkman.io'                | /bin/bash                
     && echo   'sdkman_auto_selfupdate=false'      >> $SDKMAN_DIR/etc/config                                                                       \
     && echo   'sdkman_insecure_ssl=true'          >> $SDKMAN_DIR/etc/config                                                                       \
     && zsh -c 'set +x;source /root/.sdkman/bin/sdkman-init.sh'                                                                                  \
-    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls java   && sdk install java   11.0.12.7.1-amzn'                               \
-    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls maven  && sdk install maven  3.8.3'                                          \
-    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls gradle && sdk install gradle 7.0.2'                                          \
+    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls java   && sdk install java   11.0.13.8.1-amzn'                               \
+    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls maven  && sdk install maven  3.8.4'                                          \
+    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls gradle && sdk install gradle 7.3.3'                                          \
     && rm -rf /root/.sdkman/archives                                                                                                            \
     && mkdir -p /root/.sdkman/archives                                                                                                          \
-    && curl -sL "https://github.com/openshift/okd/releases/download/4.7.0-0.okd-2021-09-19-013247/openshift-client-linux-4.7.0-0.okd-2021-09-19-013247.tar.gz" | tar xvz \
+    && curl -sL "https://github.com/openshift/okd/releases/download/4.9.0-0.okd-2021-12-12-025847/openshift-client-linux-4.9.0-0.okd-2021-12-12-025847.tar.gz" | tar xvz \
     && cp    -v ./oc       /usr/bin/oc                                                                                                          \
     && cp    -v ./kubectl  /usr/bin/kubectl                                                                                                     \
     && chmod +x            /usr/bin/oc                                                                                                          \
@@ -128,6 +130,7 @@ RUN curl -s   'https://get.sdkman.io'                | /bin/bash                
     && ./krew-linux_amd64 update                                                                                                                \
     && /usr/bin/kubectl krew   install ctx                                                                                                      \
     && /usr/bin/kubectl krew   install ns                                                                                                       \
+    && /usr/bin/kubectl krew   install gadget                                                                                                       \
     && /usr/bin/kubectl krew   install images                                                                                                   \
     && /usr/bin/kubectl krew   install ingress-nginx                                                                                            \
     && /usr/bin/kubectl plugin list                                                                                                             \                                                                                      
@@ -144,7 +147,12 @@ RUN curl -s   'https://get.sdkman.io'                | /bin/bash                
     && mv kubeseal /usr/bin/kubeseal                                                                                                            \
     && chmod +x /usr/bin/kubeseal                                                                                                               \
     && curl -fL https://app.getambassador.io/download/tel2/linux/amd64/latest/telepresence -o /usr/local/bin/telepresence                       \
-    && chmod a+x /usr/local/bin/telepresence
+    && chmod a+x /usr/local/bin/telepresence                                                                                                    \
+    && curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/latest/download/cilium-linux-amd64.tar.gz{,.sha256sum}           \
+    && sha256sum --check cilium-linux-amd64.tar.gz.sha256sum                                                                                    \
+    && tar xzvfC cilium-linux-amd64.tar.gz /usr/local/bin                                                                                       \
+    && rm cilium-linux-amd64.tar.gz{,.sha256sum}                                                                                                \
+    && rm LICENSE README.md
 
 #use openssh
 RUN echo "Setup SSH server defaults" \
@@ -169,11 +177,12 @@ RUN echo "Create default ssh keys"                                              
     && echo "alias kns='kubectl config set-context --current --namespace'" >> .zshrc                                                            \
     && echo 'source <(kubectl completion zsh)' >> .zshrc                                                                                        \
     && echo 'complete -F __start_kubectl k'    >> .zshrc                                                                                        \
-    # && echo 'source /root/kubectl.zsh'  >> .zshrc                                                                                                     \
-    # && echo "RPROMPT='%{\$fg[blue]%}(\$ZSH_KUBECTL_NAMESPACE)%{\$reset_color%}'"  >> .zshrc                                                      \
-    && echo 'eval $(starship init zsh)'                                           >> .zshrc                                                      \
-    && sed 's/\(^plugins=([^)]*\)/\1 kubectl/' -i .zshrc                                                                                        \
+    && echo 'eval $(starship init zsh)'        >> .zshrc                                                                                        \
+    # && echo 'source /root/kubectl.zsh'  >> .zshrc                                                                                             \
+    # && echo "RPROMPT='%{\$fg[blue]%}(\$ZSH_KUBECTL_NAMESPACE)%{\$reset_color%}'"  >> .zshrc                                                   \
+    && sed 's/\(^plugins=([^)]*\)/\1 kubectl zsh-autosuggestions/' -i .zshrc                                                                    \
     && sed 's/robbyrussell/af-magic/g' -i .zshrc                                                                                                \
+    && sh -c 'git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions'        \
     && sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- --yes                                                                            \
     && mkdir -p ~/.config 
     
