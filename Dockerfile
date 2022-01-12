@@ -27,13 +27,14 @@ ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.sdk
 # set environment variables and DNS to make build pass on Docker buildkit
 RUN echo "LANG=en_US.utf-8"   >> /etc/environment \
  && echo "LC_ALL=en_US.utf-8" >> /etc/environment \
- && echo "fastestmirror=1"    >> /etc/dnf/dnf.conf
+ && echo "fastestmirror=0"    >> /etc/dnf/dnf.conf
 
 WORKDIR /root
 
 #COPY docker-ce.repo /etc/yum.repos.d/docker-ce.repo
-RUN echo "Installing additional software"                                                                                                        \
-    && dnf -y install dnf-plugins-core                                                                                                           \
+RUN echo "Installing additional software"   \
+    && dnf -y clean all                     \
+    && dnf -y install dnf-plugins-core      \
     && dnf -y install https://dl.k6.io/rpm/repo.rpm                                                                                              \
     && dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo                                                     \
     && dnf -y update                                                                                                                             \
