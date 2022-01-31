@@ -114,40 +114,41 @@ RUN curl -s   'https://get.sdkman.io'                | /bin/bash                
     #TODO: build oc binary for arm64 ??
 RUN curl -sL "https://github.com/openshift/okd/releases/download/4.9.0-0.okd-2021-12-12-025847/openshift-client-linux-4.9.0-0.okd-2021-12-12-025847.tar.gz" | tar xvz \
     && cp    -v ./oc       /usr/bin/oc                                                                                                          \
-    && chmod +x            /usr/bin/oc
+    && chmod +x            /usr/bin/oc                                                                                                          \
+    && rm -rf oc kubectl openshift-client-linux-*
 
 RUN curl -sL "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${TARGETARCH}/kubectl" -o /usr/bin/kubectl \
     && chmod +x /usr/bin/kubectl
 
-RUN curl -sLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.4.2/krew-linux_${TARGETARCH}.tar.gz"                           \
+RUN curl -sLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.4.2/krew-linux_${TARGETARCH}.tar.gz"                                \
     && tar zxvf krew-linux_${TARGETARCH}.tar.gz                                                                                                 \
-    && curl -sLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.4.2/krew.yaml"                                                 \
+    && curl -sLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.4.2/krew.yaml"                                                   \
     && cat krew.yaml ; mkdir -p /root/.krew/bin                                                                                                 \
-    && ./krew-linux_${TARGETARCH} install --manifest=krew.yaml --archive=krew-linux_${TARGETARCH}.tar.gz                                                            \
+    && ./krew-linux_${TARGETARCH} install --manifest=krew.yaml --archive=krew-linux_${TARGETARCH}.tar.gz                                        \
     && ./krew-linux_${TARGETARCH} update                                                                                                        \
     && /usr/bin/kubectl krew   install ctx                                                                                                      \
     && /usr/bin/kubectl krew   install ns                                                                                                       \
     && /usr/bin/kubectl krew   install gadget                                                                                                   \
     && /usr/bin/kubectl krew   install images                                                                                                   \
-    && /usr/bin/kubectl krew   install ingress-nginx                                                                                            \
     && /usr/bin/kubectl krew   install stern                                                                                                    \
-    && /usr/bin/kubectl plugin list
+    && /usr/bin/kubectl plugin list                                                                                                             \
+    && ls;rm -rf  krew*
 
-RUN curl -sLO https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${VERSION_KUSTOMIZE}/kustomize_${VERSION_KUSTOMIZE}_linux_${TARGETARCH}.tar.gz \
-    && tar xvzf kustomize_${VERSION_KUSTOMIZE}_linux_${TARGETARCH}.tar.gz                                                                               \
-    && rm       kustomize_${VERSION_KUSTOMIZE}_linux_${TARGETARCH}.tar.gz                                                                               \
-    && mv kustomize /usr/bin/kustomize                                                                                                          \
-    && chmod +x /usr/bin/kustomize                                                                                                              \
-    && ls;rm -rf  krew* oc kubectl openshift-client-linux-*                                                                                     \
-    && echo "Install helm plugins"                                                                                                              \
-    && helm plugin install https://github.com/databus23/helm-diff && rm -rf /tmp/helm-*                                                         \
-    && curl -fL https://app.getambassador.io/download/tel2/linux/${TARGETARCH}/latest/telepresence -o /usr/local/bin/telepresence                       \
-    && chmod a+x /usr/local/bin/telepresence                                                                                                    \
-    #&& curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/latest/download/cilium-linux-${TARGETARCH}.tar.gz{,.sha256sum}           \
-    #&& sha256sum --check cilium-linux-${TARGETARCH}.tar.gz.sha256sum                                                                                    \
-    #&& tar xzvfC cilium-linux-${TARGETARCH}.tar.gz /usr/local/bin                                                                                       \
-    #&& rm cilium-linux-${TARGETARCH}.tar.gz{,.sha256sum}                                                                                                \
-    && rm LICENSE README.md
+#TODO: need this ?
+#RUN curl -sLO https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${VERSION_KUSTOMIZE}/kustomize_${VERSION_KUSTOMIZE}_linux_${TARGETARCH}.tar.gz \
+#    && tar xvzf kustomize_${VERSION_KUSTOMIZE}_linux_${TARGETARCH}.tar.gz                                                                       \
+#    && rm       kustomize_${VERSION_KUSTOMIZE}_linux_${TARGETARCH}.tar.gz                                                                       \
+#    && mv kustomize /usr/bin/kustomize                                                                                                          \
+#    && chmod +x /usr/bin/kustomize                                                                                                              \
+
+#TODO: missing tel2 arm64
+#    && curl -fL https://app.getambassador.io/download/tel2/linux/${TARGETARCH}/latest/telepresence -o /usr/local/bin/telepresence               \
+#    && chmod a+x /usr/local/bin/telepresence                                                                                                    \
+#    && curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/latest/download/cilium-linux-${TARGETARCH}.tar.gz{,.sha256sum}  \
+#    && sha256sum --check cilium-linux-${TARGETARCH}.tar.gz.sha256sum                                                                           \
+#    && tar xzvfC cilium-linux-${TARGETARCH}.tar.gz /usr/local/bin                                                                              \
+#    && rm cilium-linux-${TARGETARCH}.tar.gz{,.sha256sum}                                                                                       \
+#    && rm LICENSE README.md
 
 #TODO:
 #https://github.com/grafana/k6/releases/download/v0.36.0/k6-v0.36.0-linux-amd64.tar.gz
