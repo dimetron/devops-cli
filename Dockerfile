@@ -1,24 +1,26 @@
-ARG BASE_IMAGE=fedora:latest
-FROM $BASE_IMAGE
+ARG BASE_IMAGE=dimetron/os-base:3.0
 
+FROM $BASE_IMAGE
 LABEL maintainer="Dmytro Rashko <drashko@me.com>"
 
 ## Environment variables required for this build (do NOT change)
-ENV IMAGE_VER=2.50
 
-ARG VERSION_HELM3=3.7.2
+ENV IMAGE_VER=3.0
+
 ARG VERSION_KIND=0.11.1
+ARG VERSION_HELM3=3.8.0
 ARG VERSION_TERRAFORM=1.1.3
 ARG VERSION_TERAGRUNT=v0.35.17
 ARG VERSION_KUSTOMIZE=v4.4.0
 ARG VERSION_KUBESEAL=v0.16.0
 ARG VERSION_VAULT=1.9.2
 
+ARG TARGETARCH
+ARG TARGETVARIANT
+ARG TARGETPLATFORM
+
 ENV SDKMAN_DIR=/root/.sdkman
 ENV TERM=xterm-256color
-
-ENV HELM3_BASE_URL="https://get.helm.sh"
-ENV HELM3_TAR_FILE="helm-v${VERSION_HELM3}-linux-amd64.tar.gz"
 ENV DEBIAN_FRONTEND="noninteractive"
 
 #includes all below sdk required path
@@ -31,83 +33,72 @@ RUN echo "LANG=en_US.utf-8"   >> /etc/environment \
 
 WORKDIR /root
 
-#COPY docker-ce.repo /etc/yum.repos.d/docker-ce.repo
-RUN echo "Installing additional software"   \
-    && dnf -y clean all                     \
-    && dnf -y install dnf-plugins-core      \
-    && dnf -y install https://dl.k6.io/rpm/repo.rpm                                                                                              \
-    && dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo                                                     \
-    && dnf -y update                                                                                                                             \
-    && dnf -y upgrade                                                                                                                            \
-    && dnf -y install --nogpgcheck k6                                                                                                            \
-    && dnf -y install   yum-utils device-mapper-persistent-data lvm2 sudo                                                                        \
-    && dnf -y install   docker-ce-cli oci-runtime conntrack-tools torsocks iptables                                                              \
-    && dnf -y install   which wget zip unzip jq tar passwd openssl openssh openssh-server squid dnsmasq socat tmux iputils                       \
-    && dnf -y install   bash sshpass hostname curl ca-certificates libstdc++ git zip unzip sed vim-enhanced                                      \
-    && dnf -y install   python37 gcc python3-devel sshuttle  bash zsh procps rsync mc htop ansible findutils jq bzip2 bat                          \
-    && dnf -y install   shadow-utils iptraf tcpdump net-tools httpie skopeo                                                                    \
-    && dnf -y clean all                                                                                                                          \
-    && rm -rf /var/lib/{cache,log} /var/log/lastlog /usr/bin/dockerd-ce /usr/bin/containerd                                                      \
-    && mkdir /var/log/lastlog
 
-RUN echo "Utils"      \
-    && curl -sLS https://get.arkade.dev | sh                                                                                                    \
-    && curl -sLo ./kind "https://github.com/kubernetes-sigs/kind/releases/download/v${VERSION_KIND}/kind-$(uname)-amd64"                        \
-    && mv kind  /usr/bin                                                                                                                        \
-    && chmod +x /usr/bin/kind                                                                                                                   \
-    && curl -sL "${HELM3_BASE_URL}/${HELM3_TAR_FILE}"   | tar xvz                                                                             \
-    && mv linux-amd64/helm /usr/bin/helm3                                                                                                       \
-    && chmod +x /usr/bin/helm3                                                                                                                  \
-    && rm -rf linux-amd64                                                                                                                       \
-    && ln -s /usr/bin/helm3 /usr/bin/helm                                                                                                       \
-    && curl -sL "https://releases.hashicorp.com/terraform/$VERSION_TERRAFORM/terraform_${VERSION_TERRAFORM}_linux_amd64.zip" -o terraform.zip   \
-    && unzip terraform.zip                                                                                                                      \
-    && mv terraform /usr/bin/terraform                                                                                                          \
-    && chmod +x /usr/bin/terraform                                                                                                              \
-    && rm -f terraform.zip                                                                                                                      \
-    && curl -sL "https://github.com/gruntwork-io/terragrunt/releases/download/${VERSION_TERAGRUNT}/terragrunt_linux_amd64" -o terragrunt_linux_amd64        \
-    && mv terragrunt_linux_amd64 /usr/bin/terragrunt                                                                                            \
-    && chmod +x /usr/bin/terragrunt                                                                                                             \
-    && rm -f terragrunt.zip                                                                                                                     \
-    && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"                                                        \
-    && unzip awscliv2.zip -d ./aws/                                                                                                             \
-    && ./aws/aws/install                                                                                                                        \
-    && rm -rf  ./aws /root/awscliv2.zip                                                                                                         \
-    && sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"                                               \
-    && mkdir -p /root/.config/k9s/                                                                                                                      \
-    && curl -sL "https://raw.githubusercontent.com/derailed/k9s/master/skins/stock.yml" -o /root/.config/k9s/skin.yaml                                 \
-    && curl -sL "https://github.com/derailed/k9s/releases/download/v0.25.18/k9s_Linux_x86_64.tar.gz" | tar xvz                                   \
-    && mv k9s /usr/bin                                                                                                                          \
-    && curl -sL "https://github.com/derailed/popeye/releases/download/v0.9.7/popeye_Linux_arm64.tar.gz" | tar xvz                               \
-    && mv popeye /usr/bin                                                                                                                       \
-    && curl -sLO "https://github.com/bcicen/ctop/releases/download/v0.7.6/ctop-0.7.6-linux-amd64"                                               \
-    && mv ctop-0.7.6-linux-amd64 /usr/bin/ctop                                                                                                  \
-    && chmod +x /usr/bin/ctop                                                                                                                   \
-    && curl -sLO "https://github.com/atombender/ktail/releases/download/v1.0.1/ktail-linux-amd64"                                               \
-    && mv ktail-linux-amd64 /usr/bin/ktail                                                                                                      \
-    && chmod +x /usr/bin/ktail                                                                                                                  \
-    && curl -sLO "https://github.com/k14s/kapp/releases/download/v0.44.0/kapp-linux-amd64"                                                      \
-    && mv kapp-linux-amd64 /usr/bin/kapp                                                                                                        \
-    && chmod +x /usr/bin/kapp                                                                                                                   \
-    && curl -sLO "https://github.com/k14s/ytt/releases/download/v0.38.0/ytt-linux-amd64"                                                        \
-    && mv ytt-linux-amd64 /usr/bin/ytt                                                                                                          \
-    && chmod +x /usr/bin/ytt                                                                                                                    \
-    # && curl -sLO "https://github.com/tektoncd/cli/releases/download/v0.21.0/tkn_0.21.0_Linux_x86_64.tar.gz"                                     \
-    # && tar xvzf tkn_0.21.0_Linux_x86_64.tar.gz -C /usr/bin tkn                                                                                  \
-    # && rm -rf tkn_0.21.0_Linux_x86_64.tar.gz                                                                                                    \
-    # && chmod +x /usr/bin/tkn                                                                                                                    \
-    && curl -sLO "https://releases.hashicorp.com/vault/${VERSION_VAULT}/vault_${VERSION_VAULT}_linux_amd64.zip"                                    \
-    && unzip  vault_${VERSION_VAULT}_linux_amd64.zip                                                                                              \
-    && rm -rf vault_${VERSION_VAULT}_linux_amd64.zip                                                                                              \
-    # && mv vault /usr/bin                                                                                                                        \
-    # && chmod +x /usr/bin/vault                                                                                                                  \
-    # && curl -sL "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp                  \
-    # && mv /tmp/eksctl /usr/local/bin                                                                                                              \
-    # && chmod +x /usr/local/bin/eksctl                                                                                                             \
-    && curl -sL https://github.com/google/go-containerregistry/releases/download/v0.8.0/go-containerregistry_Linux_x86_64.tar.gz | tar xz -C /tmp \
-    && mv /tmp/crane /usr/local/bin                                                                                                               \
-    && chmod +x /usr/local/bin/crane                                                                                                              \
-    && rm -rf /root/*
+RUN echo "Utils"                                                                                                                                  \
+    && curl -sLS https://get.arkade.dev | sh                                                                                                      \
+    && curl -sLo ./kind "https://github.com/kubernetes-sigs/kind/releases/download/v${VERSION_KIND}/kind-$(uname)-${TARGETARCH}"                  \
+    && mv kind  /usr/bin                                                                                                                          \
+    && chmod +x /usr/bin/kind                                                                                                                     
+
+RUN curl -sL "https://get.helm.sh/helm-v${VERSION_HELM3}-linux-${TARGETARCH}.tar.gz"   | tar xvz                                                  \
+    && ls                                                                                                                                         \
+    && mv linux-${TARGETARCH}/helm /usr/bin/helm3                                                                                                 \
+    && chmod +x /usr/bin/helm3                                                                                                                    \
+    && rm -rf linux-${TARGETARCH}                                                                                                                 \
+    && ln -s /usr/bin/helm3 /usr/bin/helm
+
+RUN curl -sL "https://github.com/gruntwork-io/terragrunt/releases/download/${VERSION_TERAGRUNT}/terragrunt_linux_${TARGETARCH}" -o terragrunt_linux_${TARGETARCH}        \
+    && mv terragrunt_linux_${TARGETARCH} /usr/bin/terragrunt                                                                                      \
+    && chmod +x /usr/bin/terragrunt
+
+RUN curl -sL https://raw.githubusercontent.com/derailed/k9s/master/skins/stock.yml --create-dirs -o /root/.config/k9s/skin.yaml                   \
+    && curl -sL https://github.com/derailed/k9s/releases/download/v0.25.18/k9s_Linux_x86_64.tar.gz -o k9s_amd64.tar.gz                            \
+    && curl -sL https://github.com/derailed/k9s/releases/download/v0.25.18/k9s_Linux_arm64.tar.gz  -o k9s_arm64.tar.gz                            \
+    && tar  -xvf k9s_${TARGETARCH}.tar.gz                                                                                                         \
+    && rm -f *.tar                                                                                                                                \
+    && mv k9s /usr/bin
+
+RUN curl -sL "https://github.com/derailed/popeye/releases/download/v0.9.8/popeye_Linux_x86_64.tar.gz" -o popeye_Linux_amd64.tar.gz                 \
+    && curl -sL "https://github.com/derailed/popeye/releases/download/v0.9.8/popeye_Linux_arm64.tar.gz" -o popeye_Linux_arm64.tar.gz               \
+    && tar  -xvf popeye_Linux_${TARGETARCH}.tar.gz                                                                                                 \
+    && mv popeye /usr/bin
+    
+RUN curl -sLO "https://github.com/bcicen/ctop/releases/download/v0.7.6/ctop-0.7.6-linux-${TARGETARCH}"                                             \
+    && mv ctop-0.7.6-linux-${TARGETARCH} /usr/bin/ctop                                                                                             \
+    && chmod +x /usr/bin/ctop                                                                                                                     
+    
+RUN curl -sLO "https://github.com/atombender/ktail/releases/download/v1.0.1/ktail-linux-${TARGETARCH}"                                             \
+    && mv ktail-linux-${TARGETARCH} /usr/bin/ktail                                                                                                 \
+    && chmod +x /usr/bin/ktail
+
+RUN curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip     -o awscliv2_amd64.zip                                                          \
+    && curl https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip -o awscliv2_arm64.zip                                                        \
+    && unzip awscliv2_${TARGETARCH}.zip -d ./aws/                                                                                                   \
+    && ./aws/aws/install                                                                                                                           \
+    && rm -rf  ./aws /root/*.zip
+
+RUN curl -sL "https://releases.hashicorp.com/terraform/$VERSION_TERRAFORM/terraform_${VERSION_TERRAFORM}_linux_${TARGETARCH}.zip" -o terraform.zip \
+    && unzip terraform.zip                                                                                                                         \
+    && mv terraform /usr/bin/terraform                                                                                                             \
+    && chmod +x /usr/bin/terraform                                                                                                                 \
+    && rm -f terraform.zip
+
+RUN curl -sL "https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.45.0/kapp-linux-${TARGETARCH}"  -o /usr/bin/kapp                        \
+    && chmod +x /usr/bin/kapp                                                                                                                          \
+    && curl -sL "https://github.com/vmware-tanzu/carvel-ytt/releases/download/v0.38.0/ytt-linux-${TARGETARCH}" -o /usr/bin/ytt                         \
+    && chmod +x /usr/bin/ytt                                                                                                                           \
+    && curl -sLO "https://releases.hashicorp.com/vault/${VERSION_VAULT}/vault_${VERSION_VAULT}_linux_${TARGETARCH}.zip"                                \
+    && unzip  vault_${VERSION_VAULT}_linux_${TARGETARCH}.zip                                                                                           \
+    && rm -rf vault_${VERSION_VAULT}_linux_${TARGETARCH}.zip                                                                                           \
+    && mv vault /usr/bin                                                                                                                               \
+    && chmod +x /usr/bin/vault
+
+RUN curl -sL https://github.com/google/go-containerregistry/releases/download/v0.8.0/go-containerregistry_Linux_arm64.tar.gz  -o crane_arm64.tar.gz    \
+    && curl -sL https://github.com/google/go-containerregistry/releases/download/v0.8.0/go-containerregistry_Linux_x86_64.tar.gz -o crane_amd64.tar.gz \
+    && tar xvf crane_${TARGETARCH}.tar.gz  -C /tmp                                                                                                         \
+    && mv /tmp/crane /usr/local/bin                                                                                                                    \
+    && chmod +x /usr/local/bin/crane                                                                                                                   \
+    && rm -rf /tmp/* /root/*
 
 RUN curl -s   'https://get.sdkman.io'                | /bin/bash                                                                                  \
     && echo   'sdkman_auto_answer=true'            > $SDKMAN_DIR/etc/config                                                                       \
@@ -118,43 +109,48 @@ RUN curl -s   'https://get.sdkman.io'                | /bin/bash                
     && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls maven  && sdk install maven  3.8.4'                                          \
     && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls gradle && sdk install gradle 7.3.3'                                          \
     && rm -rf /root/.sdkman/archives                                                                                                            \
-    && mkdir -p /root/.sdkman/archives                                                                                                          \
-    && curl -sL "https://github.com/openshift/okd/releases/download/4.9.0-0.okd-2021-12-12-025847/openshift-client-linux-4.9.0-0.okd-2021-12-12-025847.tar.gz" | tar xvz \
+    && mkdir -p /root/.sdkman/archives                                                                                                          
+
+    #TODO: build oc binary for arm64 ??
+RUN curl -sL "https://github.com/openshift/okd/releases/download/4.9.0-0.okd-2021-12-12-025847/openshift-client-linux-4.9.0-0.okd-2021-12-12-025847.tar.gz" | tar xvz \
     && cp    -v ./oc       /usr/bin/oc                                                                                                          \
-    && cp    -v ./kubectl  /usr/bin/kubectl                                                                                                     \
-    && chmod +x            /usr/bin/oc                                                                                                          \
-    && chmod +x            /usr/bin/kubectl                                                                                                     \
-    && ls -ltr             /usr/bin/kubectl                                                                                                     \
-    && curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.4.1/krew.yaml"                                                 \
-    && curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.4.1/krew.tar.gz"                                               \
-    && tar zxvf krew.tar.gz ; cat krew.yaml ; mkdir -p /root/.krew/bin                                                                          \
-    && ./krew-linux_amd64 install --manifest=krew.yaml --archive=krew.tar.gz                                                                    \
-    && ./krew-linux_amd64 update                                                                                                                \
+    && chmod +x            /usr/bin/oc
+
+RUN curl -sL "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${TARGETARCH}/kubectl" -o /usr/bin/kubectl \
+    && chmod +x /usr/bin/kubectl
+
+RUN curl -sLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.4.2/krew-linux_${TARGETARCH}.tar.gz"                           \
+    && tar zxvf krew-linux_${TARGETARCH}.tar.gz                                                                                                 \
+    && curl -sLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.4.2/krew.yaml"                                                 \
+    && cat krew.yaml ; mkdir -p /root/.krew/bin                                                                                                 \
+    && ./krew-linux_${TARGETARCH} install --manifest=krew.yaml --archive=krew-linux_${TARGETARCH}.tar.gz                                                            \
+    && ./krew-linux_${TARGETARCH} update                                                                                                        \
     && /usr/bin/kubectl krew   install ctx                                                                                                      \
     && /usr/bin/kubectl krew   install ns                                                                                                       \
-    && /usr/bin/kubectl krew   install gadget                                                                                                       \
+    && /usr/bin/kubectl krew   install gadget                                                                                                   \
     && /usr/bin/kubectl krew   install images                                                                                                   \
     && /usr/bin/kubectl krew   install ingress-nginx                                                                                            \
-    && /usr/bin/kubectl plugin list                                                                                                             \                                                                                      
-    && curl -sLO https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${VERSION_KUSTOMIZE}/kustomize_${VERSION_KUSTOMIZE}_linux_amd64.tar.gz \
-    && tar xvzf kustomize_${VERSION_KUSTOMIZE}_linux_amd64.tar.gz                                                                               \
-    && rm       kustomize_${VERSION_KUSTOMIZE}_linux_amd64.tar.gz                                                                               \
+    && /usr/bin/kubectl krew   install stern                                                                                                    \
+    && /usr/bin/kubectl plugin list
+
+RUN curl -sLO https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${VERSION_KUSTOMIZE}/kustomize_${VERSION_KUSTOMIZE}_linux_${TARGETARCH}.tar.gz \
+    && tar xvzf kustomize_${VERSION_KUSTOMIZE}_linux_${TARGETARCH}.tar.gz                                                                               \
+    && rm       kustomize_${VERSION_KUSTOMIZE}_linux_${TARGETARCH}.tar.gz                                                                               \
     && mv kustomize /usr/bin/kustomize                                                                                                          \
     && chmod +x /usr/bin/kustomize                                                                                                              \
     && ls;rm -rf  krew* oc kubectl openshift-client-linux-*                                                                                     \
     && echo "Install helm plugins"                                                                                                              \
     && helm plugin install https://github.com/databus23/helm-diff && rm -rf /tmp/helm-*                                                         \
-    && helm plugin install https://github.com/quintush/helm-unittest && rm -rf /tmp/helm-*                                                      \
-    && curl -sL https://github.com/bitnami-labs/sealed-secrets/releases/download/${VERSION_KUBESEAL}/kubeseal-linux-amd64 -o kubeseal           \
-    && mv kubeseal /usr/bin/kubeseal                                                                                                            \
-    && chmod +x /usr/bin/kubeseal                                                                                                               \
-    && curl -fL https://app.getambassador.io/download/tel2/linux/amd64/latest/telepresence -o /usr/local/bin/telepresence                       \
+    && curl -fL https://app.getambassador.io/download/tel2/linux/${TARGETARCH}/latest/telepresence -o /usr/local/bin/telepresence                       \
     && chmod a+x /usr/local/bin/telepresence                                                                                                    \
-    && curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/latest/download/cilium-linux-amd64.tar.gz{,.sha256sum}           \
-    && sha256sum --check cilium-linux-amd64.tar.gz.sha256sum                                                                                    \
-    && tar xzvfC cilium-linux-amd64.tar.gz /usr/local/bin                                                                                       \
-    && rm cilium-linux-amd64.tar.gz{,.sha256sum}                                                                                                \
+    #&& curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/latest/download/cilium-linux-${TARGETARCH}.tar.gz{,.sha256sum}           \
+    #&& sha256sum --check cilium-linux-${TARGETARCH}.tar.gz.sha256sum                                                                                    \
+    #&& tar xzvfC cilium-linux-${TARGETARCH}.tar.gz /usr/local/bin                                                                                       \
+    #&& rm cilium-linux-${TARGETARCH}.tar.gz{,.sha256sum}                                                                                                \
     && rm LICENSE README.md
+
+#TODO:
+#https://github.com/grafana/k6/releases/download/v0.36.0/k6-v0.36.0-linux-amd64.tar.gz
 
 #use openssh
 RUN echo "Setup SSH server defaults" \
@@ -166,6 +162,8 @@ RUN echo "Setup SSH server defaults" \
     && sed s/#PermitTunnel.*/PermitTunnel\ yes/                   -i /etc/ssh/sshd_config                                                       \
     && sed s/#UseDNS.*/UseDNS\ no/                                -i /etc/ssh/sshd_config                                                       \
     && cat /etc/ssh/sshd_config | grep yes
+
+RUN sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 
 #add dimetron user
 ADD https://github.com/dimetron.keys /root/.ssh/authorized_keys
@@ -194,9 +192,8 @@ ADD starship.toml /root/.config/starship.toml
 #ENTRYPOINT ["/entrypoint.sh"]
 RUN groupadd -r devops
 
-RUN echo " ---------- Verify ----------"    \
+RUN echo " ---------- Verify $(uname -mm)----------"    \
     && which docker                         \
-    && which skopeo                         \
     && which sshuttle                       \
     && which kubectl                        \
     && which aws
