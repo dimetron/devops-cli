@@ -1,19 +1,32 @@
-ARG BASE_IMAGE=dimetron/os-base:3.0
+ARG BASE_IMAGE=dimetron/os-base:3.1
 
 FROM $BASE_IMAGE
 LABEL maintainer="Dmytro Rashko <drashko@me.com>"
 
 ## Environment variables required for this build (do NOT change)
 
-ENV IMAGE_VER=3.0
+ENV IMAGE_VER=3.1
 
-ARG VERSION_KIND=0.11.1
-ARG VERSION_HELM3=3.8.0
-ARG VERSION_TERRAFORM=1.1.3
-ARG VERSION_TERAGRUNT=v0.35.17
-ARG VERSION_KUSTOMIZE=v4.4.0
-ARG VERSION_KUBESEAL=v0.16.0
-ARG VERSION_VAULT=1.9.2
+#https://github.com/kubernetes-sigs/kind/releases
+ARG VERSION_KIND=0.14.0
+
+#https://github.com/helm/helm/releases
+ARG VERSION_HELM3=3.9.0
+
+#https://github.com/hashicorp/terraform/releases
+ARG VERSION_TERRAFORM=1.2.2
+
+#https://github.com/gruntwork-io/terragrunt/releases
+ARG VERSION_TERAGRUNT=v0.37.1
+
+#https://github.com/kubernetes-sigs/kustomize/releases
+ARG VERSION_KUSTOMIZE=v4.5.5
+
+#https://github.com/bitnami-labs/sealed-secrets/releases
+ARG VERSION_KUBESEAL=v0.18.0
+
+#https://www.vaultproject.io/downloads
+ARG VERSION_VAULT=1.10.3
 
 ARG TARGETARCH
 ARG TARGETVARIANT
@@ -33,13 +46,13 @@ RUN echo "LANG=en_US.utf-8"   >> /etc/environment \
 
 WORKDIR /root
 
-
 RUN echo "Utils"                                                                                                                                  \
     && curl -sLS https://get.arkade.dev | sh                                                                                                      \
     && curl -sLo ./kind "https://github.com/kubernetes-sigs/kind/releases/download/v${VERSION_KIND}/kind-$(uname)-${TARGETARCH}"                  \
     && mv kind  /usr/bin                                                                                                                          \
-    && chmod +x /usr/bin/kind                                                                                                                     
+    && chmod +x /usr/bin/kind
 
+             #https://get.helm.sh/helm-v3.8.2-linux-amd64.tar.gz
 RUN curl -sL "https://get.helm.sh/helm-v${VERSION_HELM3}-linux-${TARGETARCH}.tar.gz"   | tar xvz                                                  \
     && ls                                                                                                                                         \
     && mv linux-${TARGETARCH}/helm /usr/bin/helm3                                                                                                 \
@@ -58,13 +71,13 @@ RUN curl -sL https://raw.githubusercontent.com/derailed/k9s/master/skins/stock.y
     && rm -f *.tar                                                                                                                                \
     && mv k9s /usr/bin
 
-RUN curl -sL "https://github.com/derailed/popeye/releases/download/v0.9.8/popeye_Linux_x86_64.tar.gz" -o popeye_Linux_amd64.tar.gz                 \
-    && curl -sL "https://github.com/derailed/popeye/releases/download/v0.9.8/popeye_Linux_arm64.tar.gz" -o popeye_Linux_arm64.tar.gz               \
+RUN curl -sL "https://github.com/derailed/popeye/releases/download/v0.10.0/popeye_Linux_x86_64.tar.gz" -o popeye_Linux_amd64.tar.gz                 \
+    && curl -sL "https://github.com/derailed/popeye/releases/download/v0.10.0/popeye_Linux_arm64.tar.gz" -o popeye_Linux_arm64.tar.gz               \
     && tar  -xvf popeye_Linux_${TARGETARCH}.tar.gz                                                                                                 \
     && mv popeye /usr/bin
     
-RUN curl -sLO "https://github.com/bcicen/ctop/releases/download/v0.7.6/ctop-0.7.6-linux-${TARGETARCH}"                                             \
-    && mv ctop-0.7.6-linux-${TARGETARCH} /usr/bin/ctop                                                                                             \
+RUN curl -sLO "https://github.com/bcicen/ctop/releases/download/v0.7.7/ctop-0.7.7-linux-${TARGETARCH}"                                             \
+    && mv ctop-0.7.7-linux-${TARGETARCH} /usr/bin/ctop                                                                                             \
     && chmod +x /usr/bin/ctop                                                                                                                     
     
 RUN curl -sLO "https://github.com/atombender/ktail/releases/download/v1.0.1/ktail-linux-${TARGETARCH}"                                             \
@@ -83,9 +96,9 @@ RUN curl -sL "https://releases.hashicorp.com/terraform/$VERSION_TERRAFORM/terraf
     && chmod +x /usr/bin/terraform                                                                                                                 \
     && rm -f terraform.zip
 
-RUN curl -sL "https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.45.0/kapp-linux-${TARGETARCH}"  -o /usr/bin/kapp                        \
+RUN curl -sL "https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.48.0/kapp-linux-${TARGETARCH}"  -o /usr/bin/kapp                        \
     && chmod +x /usr/bin/kapp                                                                                                                          \
-    && curl -sL "https://github.com/vmware-tanzu/carvel-ytt/releases/download/v0.38.0/ytt-linux-${TARGETARCH}" -o /usr/bin/ytt                         \
+    && curl -sL "https://github.com/vmware-tanzu/carvel-ytt/releases/download/v0.41.1/ytt-linux-${TARGETARCH}" -o /usr/bin/ytt                         \
     && chmod +x /usr/bin/ytt                                                                                                                           \
     && curl -sLO "https://releases.hashicorp.com/vault/${VERSION_VAULT}/vault_${VERSION_VAULT}_linux_${TARGETARCH}.zip"                                \
     && unzip  vault_${VERSION_VAULT}_linux_${TARGETARCH}.zip                                                                                           \
@@ -93,8 +106,8 @@ RUN curl -sL "https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.4
     && mv vault /usr/bin                                                                                                                               \
     && chmod +x /usr/bin/vault
 
-RUN curl -sL https://github.com/google/go-containerregistry/releases/download/v0.8.0/go-containerregistry_Linux_arm64.tar.gz  -o crane_arm64.tar.gz    \
-    && curl -sL https://github.com/google/go-containerregistry/releases/download/v0.8.0/go-containerregistry_Linux_x86_64.tar.gz -o crane_amd64.tar.gz \
+RUN curl -sL https://github.com/google/go-containerregistry/releases/download/v0.9.0/go-containerregistry_Linux_arm64.tar.gz  -o crane_arm64.tar.gz    \
+    && curl -sL https://github.com/google/go-containerregistry/releases/download/v0.9.0/go-containerregistry_Linux_x86_64.tar.gz -o crane_amd64.tar.gz \
     && tar xvf crane_${TARGETARCH}.tar.gz  -C /tmp                                                                                                         \
     && mv /tmp/crane /usr/local/bin                                                                                                                    \
     && chmod +x /usr/local/bin/crane                                                                                                                   \
@@ -105,9 +118,9 @@ RUN curl -s   'https://get.sdkman.io'                | /bin/bash                
     && echo   'sdkman_auto_selfupdate=false'      >> $SDKMAN_DIR/etc/config                                                                       \
     && echo   'sdkman_insecure_ssl=true'          >> $SDKMAN_DIR/etc/config                                                                       \
     && zsh -c 'set +x;source /root/.sdkman/bin/sdkman-init.sh'                                                                                  \
-    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls java   && sdk install java   11.0.13.8.1-amzn'                               \
-    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls maven  && sdk install maven  3.8.4'                                          \
-    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls gradle && sdk install gradle 7.3.3'                                          \
+    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls java   && sdk install java   11.0.15.9.1-amzn'                               \
+    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls maven  && sdk install maven  3.8.5'                                          \
+    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls gradle && sdk install gradle 7.4.2'                                          \
     && rm -rf /root/.sdkman/archives                                                                                                            \
     && mkdir -p /root/.sdkman/archives                                                                                                          
 
@@ -120,9 +133,9 @@ RUN curl -sL "https://github.com/openshift/okd/releases/download/4.9.0-0.okd-202
 RUN curl -sL "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${TARGETARCH}/kubectl" -o /usr/bin/kubectl \
     && chmod +x /usr/bin/kubectl
 
-RUN curl -sLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.4.2/krew-linux_${TARGETARCH}.tar.gz"                                \
+RUN curl -sLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.4.3/krew-linux_${TARGETARCH}.tar.gz"                                \
     && tar zxvf krew-linux_${TARGETARCH}.tar.gz                                                                                                 \
-    && curl -sLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.4.2/krew.yaml"                                                   \
+    && curl -sLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.4.3/krew.yaml"                                                   \
     && cat krew.yaml ; mkdir -p /root/.krew/bin                                                                                                 \
     && ./krew-linux_${TARGETARCH} install --manifest=krew.yaml --archive=krew-linux_${TARGETARCH}.tar.gz                                        \
     && ./krew-linux_${TARGETARCH} update                                                                                                        \
@@ -131,6 +144,9 @@ RUN curl -sLO "https://github.com/kubernetes-sigs/krew/releases/download/v0.4.2/
     && /usr/bin/kubectl krew   install gadget                                                                                                   \
     && /usr/bin/kubectl krew   install images                                                                                                   \
     && /usr/bin/kubectl krew   install stern                                                                                                    \
+    && /usr/bin/kubectl krew   install rbac-tool                                                                                                  \
+    && /usr/bin/kubectl krew   install access-matrix                                                                                                \
+    && /usr/bin/kubectl krew   install rbac-view                                                                                                \
     && /usr/bin/kubectl plugin list                                                                                                             \
     && ls;rm -rf  krew*
 

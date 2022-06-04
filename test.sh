@@ -2,7 +2,7 @@
 
 export IMAGE_BASE=os-base
 export IMAGE_NAME=devops-cli
-export IMAGE_VER=3.0
+export IMAGE_VER=3.1
 
 set -x
 set -e
@@ -38,7 +38,7 @@ docker exec -it $IMAGE_NAME docker images | grep dimetron
 #docker exec  -t $IMAGE_NAME curl -LO https://raw.githubusercontent.com/cilium/cilium/1.11.0/Documentation/gettingstarted/kind-config.yaml
 #docker exec  -t $IMAGE_NAME kind delete cluster --name dev-local 2>/dev/null || :
 #docker exec  -t $IMAGE_NAME kind create cluster --name dev-local --config=kind-config.yaml --wait 2m
-docker exec  -t $IMAGE_NAME kind create cluster
+docker exec  -t $IMAGE_NAME kind create cluster --name dev-local
 
 #update container & host
 docker exec -t $IMAGE_NAME zsh -c 'kind get kubeconfig   --name dev-local  > ~/.kube/config'
