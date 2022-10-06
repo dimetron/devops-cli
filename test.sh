@@ -2,12 +2,15 @@
 
 export IMAGE_BASE=os-base
 export IMAGE_NAME=devops-cli
-export IMAGE_VER=3.1
+export IMAGE_VER=3.2
+
+export HTTP_PROXY=
+export HTTPS_PROXY=
 
 set -x
 set -e
 
-curl -sLO https://github.com/dimetron.keys
+curl --noproxy '*' -vv -sLO https://github.com/dimetron.keys
 
 docker rm -f $IMAGE_NAME
 docker buildx ls | grep           multi-buildx || :
@@ -43,8 +46,9 @@ docker exec  -t $IMAGE_NAME kind create cluster --name dev-local
 #update container & host
 docker exec -t $IMAGE_NAME zsh -c 'kind get kubeconfig   --name dev-local  > ~/.kube/config'
 docker exec -t $IMAGE_NAME zsh -c 'kind get kubeconfig   --name dev-local' > ~/.kube/config
-docker exec -t $IMAGE_NAME cilium install
-docker exec -t $IMAGE_NAME cilium status
+
+#docker exec -t $IMAGE_NAME cilium install
+#docker exec -t $IMAGE_NAME cilium status
 
 docker exec -it $IMAGE_NAME k9s
 docker exec -it $IMAGE_NAME zsh

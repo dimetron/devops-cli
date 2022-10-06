@@ -1,32 +1,32 @@
-ARG BASE_IMAGE=dimetron/os-base:3.1
+ARG BASE_IMAGE=dimetron/os-base:3.2
 
 FROM $BASE_IMAGE
 LABEL maintainer="Dmytro Rashko <drashko@me.com>"
 
 ## Environment variables required for this build (do NOT change)
 
-ENV IMAGE_VER=3.1
+ENV IMAGE_VER=3.2
 
 #https://github.com/kubernetes-sigs/kind/releases
-ARG VERSION_KIND=0.14.0
+ARG VERSION_KIND=0.16.0
 
 #https://github.com/helm/helm/releases
-ARG VERSION_HELM3=3.9.0
+ARG VERSION_HELM3=3.10.0
 
 #https://github.com/hashicorp/terraform/releases
-ARG VERSION_TERRAFORM=1.2.2
+ARG VERSION_TERRAFORM=1.3.1
 
 #https://github.com/gruntwork-io/terragrunt/releases
-ARG VERSION_TERAGRUNT=v0.37.1
+ARG VERSION_TERAGRUNT=v0.39.1
 
 #https://github.com/kubernetes-sigs/kustomize/releases
-ARG VERSION_KUSTOMIZE=v4.5.5
+ARG VERSION_KUSTOMIZE=v4.5.7
 
 #https://github.com/bitnami-labs/sealed-secrets/releases
-ARG VERSION_KUBESEAL=v0.18.0
+ARG VERSION_KUBESEAL=v0.18.5
 
 #https://www.vaultproject.io/downloads
-ARG VERSION_VAULT=1.10.3
+ARG VERSION_VAULT=1.11.4
 
 ARG TARGETARCH
 ARG TARGETVARIANT
@@ -80,7 +80,7 @@ RUN curl -sLO "https://github.com/bcicen/ctop/releases/download/v0.7.7/ctop-0.7.
     && mv ctop-0.7.7-linux-${TARGETARCH} /usr/bin/ctop                                                                                             \
     && chmod +x /usr/bin/ctop                                                                                                                     
     
-RUN curl -sLO "https://github.com/atombender/ktail/releases/download/v1.0.1/ktail-linux-${TARGETARCH}"                                             \
+RUN curl -sLO "https://github.com/atombender/ktail/releases/download/v1.3.1/ktail-linux-${TARGETARCH}"                                             \
     && mv ktail-linux-${TARGETARCH} /usr/bin/ktail                                                                                                 \
     && chmod +x /usr/bin/ktail
 
@@ -96,9 +96,9 @@ RUN curl -sL "https://releases.hashicorp.com/terraform/$VERSION_TERRAFORM/terraf
     && chmod +x /usr/bin/terraform                                                                                                                 \
     && rm -f terraform.zip
 
-RUN curl -sL "https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.48.0/kapp-linux-${TARGETARCH}"  -o /usr/bin/kapp                        \
+RUN curl -sL "https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.53.0/kapp-linux-${TARGETARCH}"  -o /usr/bin/kapp                        \
     && chmod +x /usr/bin/kapp                                                                                                                          \
-    && curl -sL "https://github.com/vmware-tanzu/carvel-ytt/releases/download/v0.41.1/ytt-linux-${TARGETARCH}" -o /usr/bin/ytt                         \
+    && curl -sL "https://github.com/vmware-tanzu/carvel-ytt/releases/download/v0.43.0/ytt-linux-${TARGETARCH}" -o /usr/bin/ytt                         \
     && chmod +x /usr/bin/ytt                                                                                                                           \
     && curl -sLO "https://releases.hashicorp.com/vault/${VERSION_VAULT}/vault_${VERSION_VAULT}_linux_${TARGETARCH}.zip"                                \
     && unzip  vault_${VERSION_VAULT}_linux_${TARGETARCH}.zip                                                                                           \
@@ -106,26 +106,26 @@ RUN curl -sL "https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.4
     && mv vault /usr/bin                                                                                                                               \
     && chmod +x /usr/bin/vault
 
-RUN curl -sL https://github.com/google/go-containerregistry/releases/download/v0.9.0/go-containerregistry_Linux_arm64.tar.gz  -o crane_arm64.tar.gz    \
-    && curl -sL https://github.com/google/go-containerregistry/releases/download/v0.9.0/go-containerregistry_Linux_x86_64.tar.gz -o crane_amd64.tar.gz \
-    && tar xvf crane_${TARGETARCH}.tar.gz  -C /tmp                                                                                                         \
-    && mv /tmp/crane /usr/local/bin                                                                                                                    \
-    && chmod +x /usr/local/bin/crane                                                                                                                   \
+RUN curl -sL https://github.com/google/go-containerregistry/releases/download/v0.11.0/go-containerregistry_Linux_x86_64.tar.gz -o crane_amd64.tar.gz    \
+    && tar xvf crane_${TARGETARCH}.tar.gz  -C /tmp                                                                                                      \
+    && mv /tmp/crane /usr/local/bin                                                                                                                     \
+    && chmod +x /usr/local/bin/crane                                                                                                                    \
     && rm -rf /tmp/* /root/*
 
 RUN curl -s   'https://get.sdkman.io'                | /bin/bash                                                                                  \
     && echo   'sdkman_auto_answer=true'            > $SDKMAN_DIR/etc/config                                                                       \
     && echo   'sdkman_auto_selfupdate=false'      >> $SDKMAN_DIR/etc/config                                                                       \
     && echo   'sdkman_insecure_ssl=true'          >> $SDKMAN_DIR/etc/config                                                                       \
-    && zsh -c 'set +x;source /root/.sdkman/bin/sdkman-init.sh'                                                                                  \
-    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls java   && sdk install java   11.0.15.9.1-amzn'                               \
-    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls maven  && sdk install maven  3.8.5'                                          \
-    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls gradle && sdk install gradle 7.4.2'                                          \
-    && rm -rf /root/.sdkman/archives                                                                                                            \
+    && zsh -c 'set +x;source /root/.sdkman/bin/sdkman-init.sh'                                                                                    \
+    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls java   && sdk install java   11.0.16-amzn'                                     \
+    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls maven  && sdk install maven  3.8.5'                                            \
+    && zsh -c 'source "/root/.sdkman/bin/sdkman-init.sh" && sdk ls gradle && sdk install gradle 7.5.1'                                            \
+    && rm -rf /root/.sdkman/archives                                                                                                              \
     && mkdir -p /root/.sdkman/archives                                                                                                          
 
-    #TODO: build oc binary for arm64 ??
-RUN curl -sL "https://github.com/openshift/okd/releases/download/4.9.0-0.okd-2021-12-12-025847/openshift-client-linux-4.9.0-0.okd-2021-12-12-025847.tar.gz" | tar xvz \
+    #FIX: build oc binary for arm64 ??
+    #https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz
+RUN curl -sL "https://github.com/openshift/okd/releases/download/4.11.0-0.okd-2022-08-20-022919/openshift-client-linux-4.11.0-0.okd-2022-08-20-022919.tar.gz" | tar xvz \
     && cp    -v ./oc       /usr/bin/oc                                                                                                          \
     && chmod +x            /usr/bin/oc                                                                                                          \
     && rm -rf oc kubectl openshift-client-linux-*
