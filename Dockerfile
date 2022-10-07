@@ -106,10 +106,11 @@ RUN curl -sL "https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.5
     && mv vault /usr/bin                                                                                                                               \
     && chmod +x /usr/bin/vault
 
-RUN curl -sL https://github.com/google/go-containerregistry/releases/download/v0.11.0/go-containerregistry_Linux_x86_64.tar.gz -o crane_amd64.tar.gz    \
-    && tar xvf crane_${TARGETARCH}.tar.gz  -C /tmp                                                                                                      \
-    && mv /tmp/crane /usr/local/bin                                                                                                                     \
-    && chmod +x /usr/local/bin/crane                                                                                                                    \
+RUN curl -sL https://github.com/google/go-containerregistry/releases/download/v0.9.0/go-containerregistry_Linux_arm64.tar.gz  -o crane_arm64.tar.gz    \
+    && curl -sL https://github.com/google/go-containerregistry/releases/download/v0.9.0/go-containerregistry_Linux_x86_64.tar.gz -o crane_amd64.tar.gz \
+    && tar xvf crane_${TARGETARCH}.tar.gz  -C /tmp                                                                                                     \
+    && mv /tmp/crane /usr/local/bin                                                                                                                    \
+    && chmod +x /usr/local/bin/crane                                                                                                                   \
     && rm -rf /tmp/* /root/*
 
 RUN curl -s   'https://get.sdkman.io'                | /bin/bash                                                                                  \

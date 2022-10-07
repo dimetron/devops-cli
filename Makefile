@@ -17,8 +17,8 @@ clean:
 image-base: clean
 	docker buildx build --platform linux/arm64,linux/amd64 base -t dimetron/$(IMAGE_BASE):$(IMAGE_VER) --push
 
-image-main: image-base
-	docker buildx build --platform linux/arm64,linux/amd64 .    -t dimetron/$(IMAGE_NAME):($IMAGE_VER) --push
+image-main: clean
+	docker buildx build --platform linux/arm64,linux/amd64 .    -t dimetron/$(IMAGE_NAME):$(IMAGE_VER) --push
 
 scan: image-main
 	docker scan dimetron/$(IMAGE_NAME):$(IMAGE_VER)
