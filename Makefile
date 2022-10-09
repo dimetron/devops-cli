@@ -1,6 +1,6 @@
 #variables
 .EXPORT_ALL_VARIABLES:
-IMAGE_VER=3.2
+IMAGE_VER=3.3
 IMAGE_BASE=os-base
 IMAGE_NAME=devops-cli
 
