@@ -2,7 +2,7 @@
 
 export IMAGE_BASE=os-base
 export IMAGE_NAME=devops-cli
-export IMAGE_VER=3.3
+export IMAGE_VER=4.0
 
 export HTTP_PROXY=
 export HTTPS_PROXY=
