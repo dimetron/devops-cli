@@ -1,9 +1,9 @@
 #variables
 .EXPORT_ALL_VARIABLES:
-IMAGE_VER=4.4.0
+IMAGE_VER=4.4.2
 IMAGE_BASE=os-base
 IMAGE_NAME=devops-cli
-GO_VERSION=1.23.2
+GO_VERSION=1.23.3
 
 DOCKER_HOST=ssh://dimetron@k3s.raccoon-universe.ts.net
 

@@ -1,5 +1,5 @@
 ARG IMAGE_BASE=dimetron/os-base
-ARG IMAGE_VER=4.4.0
+ARG IMAGE_VER=4.4.2
 
 FROM ${IMAGE_BASE}:${IMAGE_VER}
 
@@ -60,6 +60,8 @@ RUN curl -sLS https://get.arkade.dev | /bin/bash     \
     &&    arkade get terraform                       \
     &&    arkade get terragrunt                      \
     &&    arkade get vhs                             \
+    &&    arkade get atuin                           \
+    &&    pip uninstall awscli -y                    \
     && echo "arkade installation completed"
 
 RUN sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
@@ -102,4 +104,9 @@ RUN echo "Create default ssh keys"                                              
 
 ADD starship.toml /root/.config/starship.toml
 
-CMD tail -f /dev/nullq
+#TODO: add catputchin themes
+#RUN echo "Install themes"                                                                                                                         \
+#    && mkdir -p ~/.config/tmux/plugins/catppuccin  \
+#    && git clone -b v2.1.1 https://github.com/catppuccin/tmux.git ~/.config/tmux/plugins/catppuccin/tmux
+
+CMD tail -f /dev/null
