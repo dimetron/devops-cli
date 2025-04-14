@@ -1,0 +1,3413 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" charset="ISO-8859-1">
+  <title>CVE Report</title>
+  <script>
+    function myFunction() {
+      // Declare variables
+      var input, filter, table, tr, td, i;
+      input = document.getElementById("myInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("myTable");
+      tr = table.getElementsByTagName("tr");
+
+      // Loop through all table rows, and hide those who do not match the search query
+      for (i = 1; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td");
+        for (j = 0; j < td.length; j++) {
+          var tdata = td[j];
+          if (tdata) {
+            if (tdata.innerHTML.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+              break;
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style type="text/css">
+    table,
+    th,
+    td {
+      border: 1px solid black; // changing-colors
+    // word-wrap: break-word;
+    }
+
+    tr:first-child {
+      font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+      background: #eef
+    }
+
+    // changing-colors
+       tr:nth-child(odd) {
+         background: #fee
+       }
+
+    // changing-colors
+
+       * {
+         box-sizing: border-box;
+       }
+
+    #myInput {
+      //embedded image
+      background-position: left center;
+      background-repeat: no-repeat;
+      width: 94%;
+      font-size: 16px;
+      padding: 8px 20px 8px 40px;
+      border: 2px solid Tomato; // changing-colors
+    margin-bottom: 18px;
+    }
+
+    #myTable {
+      border-collapse: collapse;
+      border: 1px solid #ddd; // changing-colors
+    width: 100%;
+      margin-top: 18px;
+    // Remove the // in front of the below two lines, to get fixed-width
+    // table-layout: fixed;
+    // word-wrap: break-word;
+    // font-size: 18px;
+    }
+
+    #myTable th,
+    #myTable td {
+      text-align: left;
+      padding: 12px;
+    }
+
+    #myTable tr {
+      border-bottom: 1px solid #ddd; // changing-colors
+    }
+
+    #myTable tr:first-child:hover,
+    #myTable tr:hover {
+      background-color: rgb(4, 112, 155); // changing-colors
+    }
+
+    #myTable tr:first-child {
+      background-color: rgb(4, 112, 155); // changing-colors
+    font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+<h2 style="text-align:center;background-color:DodgerBlue;color:White;">Identified Vulnerabilites</h2>
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search in all Fields...."
+       title="Type in a Search String" autofocus="autofocus">
+<table id="myTable">
+  <tr>
+    <th>NAME</th>
+    <th>INSTALLED</th>
+    <th>TYPE</th>
+    <th>PATH</th>
+    <th>VULNERABILITY</th>
+    <th>SEVERITY</th>
+    <th>DESCRIPTION</th>
+    <th>STATE</th>
+    <th>FIXED IN</th>
+  </tr>
+  <tr>
+    <td>"cryptography"</td>
+    <td>"43.0.0"</td>
+    <td>"python"</td>
+    <td>"/usr/lib64/python3.13/site-packages/cryptography-43.0.0.dist-info/METADATA"</td>
+    <td>"GHSA-h4gh-qq45-vh27"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"pyca/cryptography has a vulnerable OpenSSL included in cryptography wheels"</td>
+    <td>"fixed"</td>
+    <td>"[43.0.1]"</td>
+  </tr>
+  <tr>
+    <td>"cryptography"</td>
+    <td>"43.0.0"</td>
+    <td>"python"</td>
+    <td>"/usr/lib64/python3.13/site-packages/cryptography-43.0.0.dist-info/METADATA"</td>
+    <td>"GHSA-79v4-65xg-pq4g"</td>
+    
+    <td style="color: #82c1ee;" >Low</td>
+    
+    <td>"Vulnerable OpenSSL included in cryptography wheels"</td>
+    <td>"fixed"</td>
+    <td>"[44.0.1]"</td>
+  </tr>
+  <tr>
+    <td>"github.com/argoproj/gitops-engine"</td>
+    <td>"v0.7.1-0.20250328191959-6d3cf122b03f"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/argocd"</td>
+    <td>"GHSA-274v-mgcv-cm8j"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Argo CD GitOps Engine does not scrub secret values from patch errors"</td>
+    <td>"not-fixed"</td>
+    <td>"[]"</td>
+  </tr>
+  <tr>
+    <td>"github.com/containerd/containerd"</td>
+    <td>"v1.7.19"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/k3d"</td>
+    <td>"GHSA-265r-hfxg-fhmg"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"containerd has an integer overflow in User ID handling"</td>
+    <td>"fixed"</td>
+    <td>"[1.7.27]"</td>
+  </tr>
+  <tr>
+    <td>"github.com/containerd/containerd"</td>
+    <td>"v1.7.22"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/dockerd"</td>
+    <td>"GHSA-265r-hfxg-fhmg"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"containerd has an integer overflow in User ID handling"</td>
+    <td>"fixed"</td>
+    <td>"[1.7.27]"</td>
+  </tr>
+  <tr>
+    <td>"github.com/containerd/containerd"</td>
+    <td>"v1.7.22"</td>
+    <td>"go-module"</td>
+    <td>"/usr/libexec/docker/cli-plugins/docker-buildx"</td>
+    <td>"GHSA-265r-hfxg-fhmg"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"containerd has an integer overflow in User ID handling"</td>
+    <td>"fixed"</td>
+    <td>"[1.7.27]"</td>
+  </tr>
+  <tr>
+    <td>"github.com/containerd/containerd"</td>
+    <td>"v1.7.24"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/helm"</td>
+    <td>"GHSA-265r-hfxg-fhmg"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"containerd has an integer overflow in User ID handling"</td>
+    <td>"fixed"</td>
+    <td>"[1.7.27]"</td>
+  </tr>
+  <tr>
+    <td>"github.com/containerd/containerd/v2"</td>
+    <td>"v2.0.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/buildx"</td>
+    <td>"GHSA-265r-hfxg-fhmg"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"containerd has an integer overflow in User ID handling"</td>
+    <td>"fixed"</td>
+    <td>"[2.0.4]"</td>
+  </tr>
+  <tr>
+    <td>"github.com/docker/buildx"</td>
+    <td>"v0.11.2"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kubescape"</td>
+    <td>"GHSA-m4gq-fm9h-8q75"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"buildx allows a possible credential leakage to telemetry endpoint"</td>
+    <td>"fixed"</td>
+    <td>"[0.21.3]"</td>
+  </tr>
+  <tr>
+    <td>"github.com/docker/buildx"</td>
+    <td>"v0.18.0"</td>
+    <td>"go-module"</td>
+    <td>"/usr/libexec/docker/cli-plugins/docker-buildx"</td>
+    <td>"GHSA-m4gq-fm9h-8q75"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"buildx allows a possible credential leakage to telemetry endpoint"</td>
+    <td>"fixed"</td>
+    <td>"[0.21.3]"</td>
+  </tr>
+  <tr>
+    <td>"github.com/docker/docker"</td>
+    <td>"v27.0.3+incompatible"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/k3d"</td>
+    <td>"GHSA-v23v-6jw2-98fq"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"Authz zero length regression"</td>
+    <td>"fixed"</td>
+    <td>"[27.1.1]"</td>
+  </tr>
+  <tr>
+    <td>"github.com/dvsekhvalnov/jose2go"</td>
+    <td>"v1.5.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"GHSA-6294-6rgp-fr7r"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"jose2go vulnerable to denial of service via large p2c value"</td>
+    <td>"fixed"</td>
+    <td>"[1.6.0]"</td>
+  </tr>
+  <tr>
+    <td>"github.com/dvsekhvalnov/jose2go"</td>
+    <td>"v1.5.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"GHSA-mhpq-9638-x6pw"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Denial of service when decrypting attack controlled input in github.com/dvsekhvalnov/jose2go"</td>
+    <td>"fixed"</td>
+    <td>"[1.5.1-0.20231206184617-48ba0b76bc88]"</td>
+  </tr>
+  <tr>
+    <td>"github.com/expr-lang/expr"</td>
+    <td>"v1.16.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/argocd"</td>
+    <td>"GHSA-93mq-9ffx-83m2"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Memory Exhaustion in Expr Parser with Unrestricted Input"</td>
+    <td>"fixed"</td>
+    <td>"[1.17.0]"</td>
+  </tr>
+  <tr>
+    <td>"github.com/go-jose/go-jose/v3"</td>
+    <td>"v3.0.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/istioctl"</td>
+    <td>"GHSA-c6gw-w398-hv78"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"DoS in go-jose Parsing"</td>
+    <td>"fixed"</td>
+    <td>"[3.0.4]"</td>
+  </tr>
+  <tr>
+    <td>"github.com/go-jose/go-jose/v3"</td>
+    <td>"v3.0.3"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/docker"</td>
+    <td>"GHSA-c6gw-w398-hv78"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"DoS in go-jose Parsing"</td>
+    <td>"fixed"</td>
+    <td>"[3.0.4]"</td>
+  </tr>
+  <tr>
+    <td>"github.com/go-jose/go-jose/v4"</td>
+    <td>"v4.0.2"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/argocd"</td>
+    <td>"GHSA-c6gw-w398-hv78"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"DoS in go-jose Parsing"</td>
+    <td>"fixed"</td>
+    <td>"[4.0.5]"</td>
+  </tr>
+  <tr>
+    <td>"github.com/go-jose/go-jose/v4"</td>
+    <td>"v4.0.4"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/dagger"</td>
+    <td>"GHSA-c6gw-w398-hv78"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"DoS in go-jose Parsing"</td>
+    <td>"fixed"</td>
+    <td>"[4.0.5]"</td>
+  </tr>
+  <tr>
+    <td>"github.com/golang-jwt/jwt/v4"</td>
+    <td>"v4.5.0"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/dockerd"</td>
+    <td>"GHSA-mh63-6h87-95cp"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"jwt-go allows excessive memory allocation during header parsing"</td>
+    <td>"fixed"</td>
+    <td>"[4.5.2]"</td>
+  </tr>
+  <tr>
+    <td>"github.com/golang-jwt/jwt/v4"</td>
+    <td>"v4.5.0"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/dockerd"</td>
+    <td>"GHSA-29wx-vh33-7x7r"</td>
+    
+    <td style="color: #82c1ee;" >Low</td>
+    
+    <td>"Bad documentation of error handling in ParseWithClaims can lead to potentially dangerous situations"</td>
+    <td>"fixed"</td>
+    <td>"[4.5.1]"</td>
+  </tr>
+  <tr>
+    <td>"github.com/redis/go-redis/v9"</td>
+    <td>"v9.7.1"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/argocd"</td>
+    <td>"GHSA-92cp-5422-2mw7"</td>
+    
+    <td style="color: #82c1ee;" >Low</td>
+    
+    <td>"go-redis allows potential out of order responses when `CLIENT SETINFO` times out during connection establishment"</td>
+    <td>"fixed"</td>
+    <td>"[9.7.3]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/crypto"</td>
+    <td>"v0.24.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/k3d"</td>
+    <td>"GHSA-v778-237x-gjrc"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"Misuse of ServerConfig.PublicKeyCallback may cause authorization bypass in golang.org/x/crypto"</td>
+    <td>"fixed"</td>
+    <td>"[0.31.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/crypto"</td>
+    <td>"v0.26.0"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/docker"</td>
+    <td>"GHSA-v778-237x-gjrc"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"Misuse of ServerConfig.PublicKeyCallback may cause authorization bypass in golang.org/x/crypto"</td>
+    <td>"fixed"</td>
+    <td>"[0.31.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/crypto"</td>
+    <td>"v0.26.0"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/dockerd"</td>
+    <td>"GHSA-v778-237x-gjrc"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"Misuse of ServerConfig.PublicKeyCallback may cause authorization bypass in golang.org/x/crypto"</td>
+    <td>"fixed"</td>
+    <td>"[0.31.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/crypto"</td>
+    <td>"v0.27.0"</td>
+    <td>"go-module"</td>
+    <td>"/usr/libexec/docker/cli-plugins/docker-buildx"</td>
+    <td>"GHSA-v778-237x-gjrc"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"Misuse of ServerConfig.PublicKeyCallback may cause authorization bypass in golang.org/x/crypto"</td>
+    <td>"fixed"</td>
+    <td>"[0.31.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/crypto"</td>
+    <td>"v0.8.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"GHSA-v778-237x-gjrc"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"Misuse of ServerConfig.PublicKeyCallback may cause authorization bypass in golang.org/x/crypto"</td>
+    <td>"fixed"</td>
+    <td>"[0.31.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/crypto"</td>
+    <td>"v0.8.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"GHSA-45x7-px36-x8w8"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Prefix Truncation Attack against ChaCha20-Poly1305 and Encrypt-then-MAC aka Terrapin"</td>
+    <td>"fixed"</td>
+    <td>"[0.17.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.12.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"GHSA-4374-p667-p6c8"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"HTTP/2 rapid reset can cause excessive work in net/http"</td>
+    <td>"fixed"</td>
+    <td>"[0.17.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.12.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"GHSA-2wrh-6pvc-2jm9"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Improper rendering of text nodes in golang.org/x/net/html"</td>
+    <td>"fixed"</td>
+    <td>"[0.13.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.12.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"GHSA-4v7x-pqxf-cx7m"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"net/http, x/net/http2: close connections when receiving too many headers"</td>
+    <td>"fixed"</td>
+    <td>"[0.23.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.12.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"GHSA-qppj-fm5r-hxr3"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"HTTP/2 Stream Cancellation Attack"</td>
+    <td>"fixed"</td>
+    <td>"[0.17.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.12.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"GHSA-qxp5-gwg8-xv66"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net"</td>
+    <td>"fixed"</td>
+    <td>"[0.36.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.19.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/krew"</td>
+    <td>"GHSA-4v7x-pqxf-cx7m"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"net/http, x/net/http2: close connections when receiving too many headers"</td>
+    <td>"fixed"</td>
+    <td>"[0.23.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.19.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/krew"</td>
+    <td>"GHSA-qxp5-gwg8-xv66"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net"</td>
+    <td>"fixed"</td>
+    <td>"[0.36.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.26.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/k3s"</td>
+    <td>"GHSA-qxp5-gwg8-xv66"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net"</td>
+    <td>"fixed"</td>
+    <td>"[0.36.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.26.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/k3d"</td>
+    <td>"GHSA-qxp5-gwg8-xv66"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net"</td>
+    <td>"fixed"</td>
+    <td>"[0.36.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.28.0"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/dockerd"</td>
+    <td>"GHSA-qxp5-gwg8-xv66"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net"</td>
+    <td>"fixed"</td>
+    <td>"[0.36.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.28.0"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/docker"</td>
+    <td>"GHSA-qxp5-gwg8-xv66"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net"</td>
+    <td>"fixed"</td>
+    <td>"[0.36.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.29.0"</td>
+    <td>"go-module"</td>
+    <td>"/usr/libexec/docker/cli-plugins/docker-buildx"</td>
+    <td>"GHSA-qxp5-gwg8-xv66"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net"</td>
+    <td>"fixed"</td>
+    <td>"[0.36.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.30.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kubectl"</td>
+    <td>"GHSA-qxp5-gwg8-xv66"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net"</td>
+    <td>"fixed"</td>
+    <td>"[0.36.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.33.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/vhs"</td>
+    <td>"GHSA-qxp5-gwg8-xv66"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net"</td>
+    <td>"fixed"</td>
+    <td>"[0.36.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.33.0"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/runc"</td>
+    <td>"GHSA-qxp5-gwg8-xv66"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net"</td>
+    <td>"fixed"</td>
+    <td>"[0.36.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.33.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/buildx"</td>
+    <td>"GHSA-qxp5-gwg8-xv66"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net"</td>
+    <td>"fixed"</td>
+    <td>"[0.36.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.33.0"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/ctr"</td>
+    <td>"GHSA-qxp5-gwg8-xv66"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net"</td>
+    <td>"fixed"</td>
+    <td>"[0.36.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.33.0"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/containerd-stress"</td>
+    <td>"GHSA-qxp5-gwg8-xv66"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net"</td>
+    <td>"fixed"</td>
+    <td>"[0.36.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.33.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/yq"</td>
+    <td>"GHSA-qxp5-gwg8-xv66"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net"</td>
+    <td>"fixed"</td>
+    <td>"[0.36.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.33.0"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/containerd-shim-runc-v2"</td>
+    <td>"GHSA-qxp5-gwg8-xv66"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net"</td>
+    <td>"fixed"</td>
+    <td>"[0.36.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.34.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/argocd"</td>
+    <td>"GHSA-qxp5-gwg8-xv66"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net"</td>
+    <td>"fixed"</td>
+    <td>"[0.36.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.9.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"GHSA-4374-p667-p6c8"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"HTTP/2 rapid reset can cause excessive work in net/http"</td>
+    <td>"fixed"</td>
+    <td>"[0.17.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.9.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"GHSA-2wrh-6pvc-2jm9"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Improper rendering of text nodes in golang.org/x/net/html"</td>
+    <td>"fixed"</td>
+    <td>"[0.13.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.9.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"GHSA-4v7x-pqxf-cx7m"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"net/http, x/net/http2: close connections when receiving too many headers"</td>
+    <td>"fixed"</td>
+    <td>"[0.23.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.9.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"GHSA-qppj-fm5r-hxr3"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"HTTP/2 Stream Cancellation Attack"</td>
+    <td>"fixed"</td>
+    <td>"[0.17.0]"</td>
+  </tr>
+  <tr>
+    <td>"golang.org/x/net"</td>
+    <td>"v0.9.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"GHSA-qxp5-gwg8-xv66"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net"</td>
+    <td>"fixed"</td>
+    <td>"[0.36.0]"</td>
+  </tr>
+  <tr>
+    <td>"google.golang.org/grpc"</td>
+    <td>"v1.54.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"GHSA-m425-mq94-257g"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"gRPC-Go HTTP/2 Rapid Reset vulnerability"</td>
+    <td>"fixed"</td>
+    <td>"[1.56.3]"</td>
+  </tr>
+  <tr>
+    <td>"google.golang.org/grpc"</td>
+    <td>"v1.54.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"GHSA-qppj-fm5r-hxr3"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"HTTP/2 Stream Cancellation Attack"</td>
+    <td>"fixed"</td>
+    <td>"[1.56.3]"</td>
+  </tr>
+  <tr>
+    <td>"google.golang.org/grpc"</td>
+    <td>"v1.64.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/k3d"</td>
+    <td>"GHSA-xr7q-jx4m-x55m"</td>
+    
+    <td style="color: #82c1ee;" >Low</td>
+    
+    <td>"Private tokens could appear in logs if context containing gRPC metadata is logged in github.com/grpc/grpc-go"</td>
+    <td>"fixed"</td>
+    <td>"[1.64.1]"</td>
+  </tr>
+  <tr>
+    <td>"google.golang.org/protobuf"</td>
+    <td>"v1.28.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"GHSA-8r3f-844c-mc37"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Golang protojson.Unmarshal function infinite loop when unmarshaling certain forms of invalid JSON"</td>
+    <td>"fixed"</td>
+    <td>"[1.33.0]"</td>
+  </tr>
+  <tr>
+    <td>"google.golang.org/protobuf"</td>
+    <td>"v1.30.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"GHSA-8r3f-844c-mc37"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Golang protojson.Unmarshal function infinite loop when unmarshaling certain forms of invalid JSON"</td>
+    <td>"fixed"</td>
+    <td>"[1.33.0]"</td>
+  </tr>
+  <tr>
+    <td>"gopkg.in/square/go-jose.v2"</td>
+    <td>"v2.6.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kubescape"</td>
+    <td>"GHSA-c5q2-7r4c-mv6g"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Go JOSE vulnerable to Improper Handling of Highly Compressed Data (Data Amplification)"</td>
+    <td>"not-fixed"</td>
+    <td>"[]"</td>
+  </tr>
+  <tr>
+    <td>"gopkg.in/square/go-jose.v2"</td>
+    <td>"v2.6.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"GHSA-c5q2-7r4c-mv6g"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Go JOSE vulnerable to Improper Handling of Highly Compressed Data (Data Amplification)"</td>
+    <td>"not-fixed"</td>
+    <td>"[]"</td>
+  </tr>
+  <tr>
+    <td>"helm.sh/helm/v3"</td>
+    <td>"v3.14.4"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kubescape"</td>
+    <td>"GHSA-4hfp-h4cw-hj8p"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Helm Allows A Specially Crafted Chart Archive To Cause Out Of Memory Termination"</td>
+    <td>"fixed"</td>
+    <td>"[3.17.3]"</td>
+  </tr>
+  <tr>
+    <td>"helm.sh/helm/v3"</td>
+    <td>"v3.14.4"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kubescape"</td>
+    <td>"GHSA-5xqw-8hwv-wg92"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Helm Allows A Specially Crafted JSON Schema To Cause A Stack Overflow"</td>
+    <td>"fixed"</td>
+    <td>"[3.17.3]"</td>
+  </tr>
+  <tr>
+    <td>"helm.sh/helm/v3"</td>
+    <td>"v3.17.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/istioctl"</td>
+    <td>"GHSA-4hfp-h4cw-hj8p"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Helm Allows A Specially Crafted Chart Archive To Cause Out Of Memory Termination"</td>
+    <td>"fixed"</td>
+    <td>"[3.17.3]"</td>
+  </tr>
+  <tr>
+    <td>"helm.sh/helm/v3"</td>
+    <td>"v3.17.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/istioctl"</td>
+    <td>"GHSA-5xqw-8hwv-wg92"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Helm Allows A Specially Crafted JSON Schema To Cause A Stack Overflow"</td>
+    <td>"fixed"</td>
+    <td>"[3.17.3]"</td>
+  </tr>
+  <tr>
+    <td>"helm.sh/helm/v3"</td>
+    <td>"v3.17.2"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/trivy"</td>
+    <td>"GHSA-4hfp-h4cw-hj8p"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Helm Allows A Specially Crafted Chart Archive To Cause Out Of Memory Termination"</td>
+    <td>"fixed"</td>
+    <td>"[3.17.3]"</td>
+  </tr>
+  <tr>
+    <td>"helm.sh/helm/v3"</td>
+    <td>"v3.17.2"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/trivy"</td>
+    <td>"GHSA-5xqw-8hwv-wg92"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Helm Allows A Specially Crafted JSON Schema To Cause A Stack Overflow"</td>
+    <td>"fixed"</td>
+    <td>"[3.17.3]"</td>
+  </tr>
+  <tr>
+    <td>"k8s.io/kubernetes"</td>
+    <td>"v1.31.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/argocd"</td>
+    <td>"GHSA-3wgm-2gw2-vh5m"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Kubernetes GitRepo Volume Inadvertent Local Repository Access"</td>
+    <td>"not-fixed"</td>
+    <td>"[]"</td>
+  </tr>
+  <tr>
+    <td>"k8s.io/kubernetes"</td>
+    <td>"v1.31.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/argocd"</td>
+    <td>"GHSA-jgfp-53c3-624w"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Node Denial of Service via kubelet Checkpoint API"</td>
+    <td>"fixed"</td>
+    <td>"[1.31.6]"</td>
+  </tr>
+  <tr>
+    <td>"k8s.io/kubernetes"</td>
+    <td>"v1.31.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/argocd"</td>
+    <td>"GHSA-vv39-3w5q-974q"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Kubernetes allows Command Injection affecting Windows nodes via nodes/*/logs/query API"</td>
+    <td>"fixed"</td>
+    <td>"[1.31.5]"</td>
+  </tr>
+  <tr>
+    <td>"k8s.io/kubernetes"</td>
+    <td>"v1.32.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kubectl"</td>
+    <td>"GHSA-3wgm-2gw2-vh5m"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Kubernetes GitRepo Volume Inadvertent Local Repository Access"</td>
+    <td>"not-fixed"</td>
+    <td>"[]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2023-24531"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"Command go env is documented as outputting a shell script containing the Go environment. However, go env doesn't sanitize values, so executing its output as a shell script can cause various bad bahaviors, including executing arbitrary commands or inserting new environment variables. This issue is relatively minor because, in general, if an attacker can set arbitrary environment variables on a system, they have better attack vectors than making "go env" print them out."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.0-0]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2023-29402"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"The go command may generate unexpected code at build time when using cgo. This may result in unexpected behavior when running a go program which uses cgo. This may occur when running an untrusted module which contains directories with newline characters in their names. Modules which are retrieved using the go command, i.e. via "go get", are not affected (modules retrieved using GOPATH-mode, i.e. GO111MODULE=off, may be affected)."</td>
+    <td>"fixed"</td>
+    <td>"[1.19.10 1.20.5]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2023-29404"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"The go command may execute arbitrary code at build time when using cgo. This may occur when running "go get" on a malicious module, or when running any other command which builds untrusted code. This is can by triggered by linker flags, specified via a "#cgo LDFLAGS" directive. The arguments for a number of flags which are non-optional are incorrectly considered optional, allowing disallowed flags to be smuggled through the LDFLAGS sanitization. This affects usage of both the gc and gccgo compilers."</td>
+    <td>"fixed"</td>
+    <td>"[1.19.10 1.20.5]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2023-29405"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"The go command may execute arbitrary code at build time when using cgo. This may occur when running "go get" on a malicious module, or when running any other command which builds untrusted code. This is can by triggered by linker flags, specified via a "#cgo LDFLAGS" directive. Flags containing embedded spaces are mishandled, allowing disallowed flags to be smuggled through the LDFLAGS sanitization by including them in the argument of another flag. This only affects usage of the gccgo compiler."</td>
+    <td>"fixed"</td>
+    <td>"[1.19.10 1.20.5]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2024-24790"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"The various Is methods (IsPrivate, IsLoopback, etc) did not work as expected for IPv4-mapped IPv6 addresses, returning false for addresses which would return true in their traditional IPv4 forms."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.11 1.22.4]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2023-29403"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"On Unix platforms, the Go runtime does not behave differently when a binary is run with the setuid/setgid bits. This can be dangerous in certain cases, such as when dumping memory state, or assuming the status of standard i/o file descriptors. If a setuid/setgid binary is executed with standard I/O file descriptors closed, opening any files can result in unexpected content being read or written with elevated privileges. Similarly, if a setuid/setgid program is terminated, either via panic or signal, it may leak the contents of its registers."</td>
+    <td>"fixed"</td>
+    <td>"[1.19.10 1.20.5]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2023-39323"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Line directives ("//line") can be used to bypass the restrictions on "//go:cgo_" directives, allowing blocked linker and compiler flags to be passed during compilation. This can result in unexpected execution of arbitrary code when running "go build". The line directive requires the absolute path of the file in which the directive lives, which makes exploiting this issue significantly more complex."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.9 1.21.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2023-44487"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"The HTTP/2 protocol allows a denial of service (server resource consumption) because request cancellation can reset many streams quickly, as exploited in the wild in August through October 2023."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.10 1.21.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2023-45285"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Using go get to fetch a module with the ".git" suffix may unexpectedly fallback to the insecure "git://" protocol if the module is unavailable via the secure "https://" and "git+ssh://" protocols, even if GOINSECURE is not set for said module. This only affects users who are not using the module proxy and are fetching modules directly (i.e. GOPROXY=off)."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.12 1.21.5]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2023-45287"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Before Go 1.20, the RSA based TLS key exchanges used the math/big library, which is not constant time. RSA blinding was applied to prevent timing attacks, but analysis shows this may not have been fully effective. In particular it appears as if the removal of PKCS#1 padding may leak timing information, which in turn could be used to recover session key bits. In Go 1.20, the crypto/tls library switched to a fully constant time RSA implementation, which we do not believe exhibits any timing side channels."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.0]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2023-45288"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"An attacker may cause an HTTP/2 endpoint to read arbitrary amounts of header data by sending an excessive number of CONTINUATION frames. Maintaining HPACK state requires parsing and processing all HEADERS and CONTINUATION frames on a connection. When a request's headers exceed MaxHeaderBytes, no memory is allocated to store the excess headers, but they are still parsed. This permits an attacker to cause an HTTP/2 endpoint to read arbitrary amounts of header data, all associated with a request which is going to be rejected. These headers can include Huffman-encoded data which is significantly more expensive for the receiver to decode than for an attacker to send. The fix sets a limit on the amount of excess header frames we will process before closing a connection."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.9 1.22.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2024-24784"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"The ParseAddressList function incorrectly handles comments (text within parentheses) within display names. Since this is a misalignment with conforming address parsers, it can result in different trust decisions being made by programs using different parsers."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.8 1.22.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2024-24791"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"The net/http HTTP/1.1 client mishandled the case where a server responds to a request with an "Expect: 100-continue" header with a non-informational (200 or higher) status. This mishandling could leave a client connection in an invalid state, where the next request sent on the connection will fail. An attacker sending a request to a net/http/httputil.ReverseProxy proxy can exploit this mishandling to cause a denial of service by sending "Expect: 100-continue" requests which elicit a non-informational response from the backend. Each such request leaves the proxy with an invalid connection, and causes one subsequent request using that connection to fail."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.12 1.22.5]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2024-34156"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Calling Decoder.Decode on a message which contains deeply nested structures can cause a panic due to stack exhaustion. This is a follow-up to CVE-2022-30635."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.7 1.23.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2024-34158"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Calling Parse on a "// +build" build tag line with deeply nested expressions can cause a panic due to stack exhaustion."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.7 1.23.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2023-29406"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The HTTP/1 client does not fully validate the contents of the Host header. A maliciously crafted Host header can inject additional headers or entire requests. With fix, the HTTP/1 client now refuses to send requests containing an invalid Request.Host or Request.URL.Host value."</td>
+    <td>"fixed"</td>
+    <td>"[1.19.11 1.20.6]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2023-29409"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Extremely large RSA keys in certificate chains can cause a client/server to expend significant CPU time verifying signatures. With fix, the size of RSA keys transmitted during handshakes is restricted to <= 8192 bits. Based on a survey of publicly trusted RSA keys, there are currently only three certificates in circulation with keys larger than this, and all three appear to be test certificates that are not actively deployed. It is possible there are larger keys in use in private PKIs, but we target the web PKI, so causing breakage here in the interests of increasing the default safety of users of crypto/tls seems reasonable."</td>
+    <td>"fixed"</td>
+    <td>"[1.19.12 1.20.7]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2023-39318"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The html/template package does not properly handle HTML-like "" comment tokens, nor hashbang "#!" comment tokens, in <script> contexts. This may cause the template parser to improperly interpret the contents of <script> contexts, causing actions to be improperly escaped. This may be leveraged to perform an XSS attack."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.8 1.21.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2023-39319"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The html/template package does not apply the proper rules for handling occurrences of "<script", "<!--", and "</script" within JS literals in <script> contexts. This may cause the template parser to improperly consider script contexts to be terminated early, causing actions to be improperly escaped. This could be leveraged to perform an XSS attack."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.8 1.21.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2023-39326"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"A malicious HTTP sender can use chunk extensions to cause a receiver reading from a request or response body to read many more bytes from the network than are in the body. A malicious HTTP client can further exploit this to cause a server to automatically read a large amount of data (up to about 1GiB) when a handler fails to read the entire body of a request. Chunk extensions are a little-used HTTP feature which permit including additional metadata in a request or response body sent using the chunked encoding. The net/http chunked encoding reader discards this metadata. A sender can exploit this by inserting a large metadata segment with each byte transferred. The chunk reader now produces an error if the ratio of real body to encoded bytes grows too small."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.12 1.21.5]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2023-45289"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"When following an HTTP redirect to a domain which is not a subdomain match or exact match of the initial domain, an http.Client does not forward sensitive headers such as "Authorization" or "Cookie". For example, a redirect from foo.com to www.foo.com will forward the Authorization header, but a redirect to bar.com will not. A maliciously crafted HTTP redirect could cause sensitive headers to be unexpectedly forwarded."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.8 1.22.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2023-45290"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"When parsing a multipart form (either explicitly with Request.ParseMultipartForm or implicitly with Request.FormValue, Request.PostFormValue, or Request.FormFile), limits on the total size of the parsed form were not applied to the memory consumed while reading a single form line. This permits a maliciously crafted input containing very long lines to cause allocation of arbitrarily large amounts of memory, potentially leading to memory exhaustion. With fix, the ParseMultipartForm function now correctly limits the maximum size of form lines."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.8 1.22.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2024-24783"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Verifying a certificate chain which contains a certificate with an unknown public key algorithm will cause Certificate.Verify to panic. This affects all crypto/tls clients, and servers that set Config.ClientAuth to VerifyClientCertIfGiven or RequireAndVerifyClientCert. The default behavior is for TLS servers to not verify client certificates."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.8 1.22.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2024-24785"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"If errors returned from MarshalJSON methods contain user controlled data, they may be used to break the contextual auto-escaping behavior of the html/template package, allowing for subsequent actions to inject unexpected content into templates."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.8 1.22.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2024-24787"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"On Darwin, building a Go module which contains CGO can trigger arbitrary code execution when using the Apple version of ld, due to usage of the -lto_library flag in a "#cgo LDFLAGS" directive."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.10 1.22.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2024-24789"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The archive/zip package's handling of certain types of invalid zip files differs from the behavior of most zip implementations. This misalignment could be exploited to create an zip file with contents that vary depending on the implementation reading the file. The archive/zip package now rejects files containing these errors."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.11 1.22.4]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2024-34155"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Calling any of the Parse functions on Go source code which contains deeply nested literals can cause a panic due to stack exhaustion."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.7 1.23.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2024-45336"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The HTTP client drops sensitive headers after following a cross-domain redirect. For example, a request to a.com/ containing an Authorization header which is redirected to b.com/ will not send that header to b.com. In the event that the client received a subsequent same-domain redirect, however, the sensitive headers would be restored. For example, a chain of redirects from a.com/, to b.com/1, and finally to b.com/2 would incorrectly send the Authorization header to b.com/2."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2024-45341"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"A certificate with a URI which has a IPv6 address with a zone ID may incorrectly satisfy a URI name constraint that applies to the certificate chain. Certificates containing URIs are not permitted in the web PKI, so this only affects users of private PKIs which make use of URIs."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2025-22866"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Due to the usage of a variable time instruction in the assembly implementation of an internal function, a small number of bits of secret scalars are leaked on the ppc64le architecture. Due to the way this function is used, we do not believe this leakage is enough to allow recovery of the private key when P-256 is used in any well known protocols."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.12 1.23.6 1.24.0-rc.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.19.9"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kustomize"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.13"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/fzf"</td>
+    <td>"CVE-2023-24531"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"Command go env is documented as outputting a shell script containing the Go environment. However, go env doesn't sanitize values, so executing its output as a shell script can cause various bad bahaviors, including executing arbitrary commands or inserting new environment variables. This issue is relatively minor because, in general, if an attacker can set arbitrary environment variables on a system, they have better attack vectors than making "go env" print them out."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.0-0]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.13"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/fzf"</td>
+    <td>"CVE-2024-24790"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"The various Is methods (IsPrivate, IsLoopback, etc) did not work as expected for IPv4-mapped IPv6 addresses, returning false for addresses which would return true in their traditional IPv4 forms."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.11 1.22.4]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.13"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/fzf"</td>
+    <td>"CVE-2023-45288"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"An attacker may cause an HTTP/2 endpoint to read arbitrary amounts of header data by sending an excessive number of CONTINUATION frames. Maintaining HPACK state requires parsing and processing all HEADERS and CONTINUATION frames on a connection. When a request's headers exceed MaxHeaderBytes, no memory is allocated to store the excess headers, but they are still parsed. This permits an attacker to cause an HTTP/2 endpoint to read arbitrary amounts of header data, all associated with a request which is going to be rejected. These headers can include Huffman-encoded data which is significantly more expensive for the receiver to decode than for an attacker to send. The fix sets a limit on the amount of excess header frames we will process before closing a connection."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.9 1.22.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.13"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/fzf"</td>
+    <td>"CVE-2024-24784"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"The ParseAddressList function incorrectly handles comments (text within parentheses) within display names. Since this is a misalignment with conforming address parsers, it can result in different trust decisions being made by programs using different parsers."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.8 1.22.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.13"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/fzf"</td>
+    <td>"CVE-2024-24791"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"The net/http HTTP/1.1 client mishandled the case where a server responds to a request with an "Expect: 100-continue" header with a non-informational (200 or higher) status. This mishandling could leave a client connection in an invalid state, where the next request sent on the connection will fail. An attacker sending a request to a net/http/httputil.ReverseProxy proxy can exploit this mishandling to cause a denial of service by sending "Expect: 100-continue" requests which elicit a non-informational response from the backend. Each such request leaves the proxy with an invalid connection, and causes one subsequent request using that connection to fail."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.12 1.22.5]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.13"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/fzf"</td>
+    <td>"CVE-2024-34156"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Calling Decoder.Decode on a message which contains deeply nested structures can cause a panic due to stack exhaustion. This is a follow-up to CVE-2022-30635."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.7 1.23.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.13"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/fzf"</td>
+    <td>"CVE-2024-34158"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Calling Parse on a "// +build" build tag line with deeply nested expressions can cause a panic due to stack exhaustion."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.7 1.23.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.13"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/fzf"</td>
+    <td>"CVE-2023-45289"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"When following an HTTP redirect to a domain which is not a subdomain match or exact match of the initial domain, an http.Client does not forward sensitive headers such as "Authorization" or "Cookie". For example, a redirect from foo.com to www.foo.com will forward the Authorization header, but a redirect to bar.com will not. A maliciously crafted HTTP redirect could cause sensitive headers to be unexpectedly forwarded."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.8 1.22.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.13"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/fzf"</td>
+    <td>"CVE-2023-45290"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"When parsing a multipart form (either explicitly with Request.ParseMultipartForm or implicitly with Request.FormValue, Request.PostFormValue, or Request.FormFile), limits on the total size of the parsed form were not applied to the memory consumed while reading a single form line. This permits a maliciously crafted input containing very long lines to cause allocation of arbitrarily large amounts of memory, potentially leading to memory exhaustion. With fix, the ParseMultipartForm function now correctly limits the maximum size of form lines."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.8 1.22.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.13"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/fzf"</td>
+    <td>"CVE-2024-24783"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Verifying a certificate chain which contains a certificate with an unknown public key algorithm will cause Certificate.Verify to panic. This affects all crypto/tls clients, and servers that set Config.ClientAuth to VerifyClientCertIfGiven or RequireAndVerifyClientCert. The default behavior is for TLS servers to not verify client certificates."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.8 1.22.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.13"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/fzf"</td>
+    <td>"CVE-2024-24785"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"If errors returned from MarshalJSON methods contain user controlled data, they may be used to break the contextual auto-escaping behavior of the html/template package, allowing for subsequent actions to inject unexpected content into templates."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.8 1.22.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.13"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/fzf"</td>
+    <td>"CVE-2024-24787"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"On Darwin, building a Go module which contains CGO can trigger arbitrary code execution when using the Apple version of ld, due to usage of the -lto_library flag in a "#cgo LDFLAGS" directive."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.10 1.22.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.13"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/fzf"</td>
+    <td>"CVE-2024-24789"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The archive/zip package's handling of certain types of invalid zip files differs from the behavior of most zip implementations. This misalignment could be exploited to create an zip file with contents that vary depending on the implementation reading the file. The archive/zip package now rejects files containing these errors."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.11 1.22.4]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.13"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/fzf"</td>
+    <td>"CVE-2024-34155"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Calling any of the Parse functions on Go source code which contains deeply nested literals can cause a panic due to stack exhaustion."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.7 1.23.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.13"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/fzf"</td>
+    <td>"CVE-2024-45336"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The HTTP client drops sensitive headers after following a cross-domain redirect. For example, a request to a.com/ containing an Authorization header which is redirected to b.com/ will not send that header to b.com. In the event that the client received a subsequent same-domain redirect, however, the sensitive headers would be restored. For example, a chain of redirects from a.com/, to b.com/1, and finally to b.com/2 would incorrectly send the Authorization header to b.com/2."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.13"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/fzf"</td>
+    <td>"CVE-2024-45341"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"A certificate with a URI which has a IPv6 address with a zone ID may incorrectly satisfy a URI name constraint that applies to the certificate chain. Certificates containing URIs are not permitted in the web PKI, so this only affects users of private PKIs which make use of URIs."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.13"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/fzf"</td>
+    <td>"CVE-2025-22866"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Due to the usage of a variable time instruction in the assembly implementation of an internal function, a small number of bits of secret scalars are leaked on the ppc64le architecture. Due to the way this function is used, we do not believe this leakage is enough to allow recovery of the private key when P-256 is used in any well known protocols."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.12 1.23.6 1.24.0-rc.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.13"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/fzf"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2023-24531"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"Command go env is documented as outputting a shell script containing the Go environment. However, go env doesn't sanitize values, so executing its output as a shell script can cause various bad bahaviors, including executing arbitrary commands or inserting new environment variables. This issue is relatively minor because, in general, if an attacker can set arbitrary environment variables on a system, they have better attack vectors than making "go env" print them out."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.0-0]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2023-24540"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"Not all valid JavaScript whitespace characters are considered to be whitespace. Templates containing whitespace characters outside of the character set "\t\n\f\r\u0020\u2028\u2029" in JavaScript contexts that also contain actions may not be properly sanitized during execution."</td>
+    <td>"fixed"</td>
+    <td>"[1.19.9 1.20.4]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2023-29402"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"The go command may generate unexpected code at build time when using cgo. This may result in unexpected behavior when running a go program which uses cgo. This may occur when running an untrusted module which contains directories with newline characters in their names. Modules which are retrieved using the go command, i.e. via "go get", are not affected (modules retrieved using GOPATH-mode, i.e. GO111MODULE=off, may be affected)."</td>
+    <td>"fixed"</td>
+    <td>"[1.19.10 1.20.5]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2023-29404"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"The go command may execute arbitrary code at build time when using cgo. This may occur when running "go get" on a malicious module, or when running any other command which builds untrusted code. This is can by triggered by linker flags, specified via a "#cgo LDFLAGS" directive. The arguments for a number of flags which are non-optional are incorrectly considered optional, allowing disallowed flags to be smuggled through the LDFLAGS sanitization. This affects usage of both the gc and gccgo compilers."</td>
+    <td>"fixed"</td>
+    <td>"[1.19.10 1.20.5]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2023-29405"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"The go command may execute arbitrary code at build time when using cgo. This may occur when running "go get" on a malicious module, or when running any other command which builds untrusted code. This is can by triggered by linker flags, specified via a "#cgo LDFLAGS" directive. Flags containing embedded spaces are mishandled, allowing disallowed flags to be smuggled through the LDFLAGS sanitization by including them in the argument of another flag. This only affects usage of the gccgo compiler."</td>
+    <td>"fixed"</td>
+    <td>"[1.19.10 1.20.5]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2024-24790"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"The various Is methods (IsPrivate, IsLoopback, etc) did not work as expected for IPv4-mapped IPv6 addresses, returning false for addresses which would return true in their traditional IPv4 forms."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.11 1.22.4]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2023-24539"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Angle brackets (<>) are not considered dangerous characters when inserted into CSS contexts. Templates containing multiple actions separated by a '/' character can result in unexpectedly closing the CSS context and allowing for injection of unexpected HTML, if executed with untrusted input."</td>
+    <td>"fixed"</td>
+    <td>"[1.19.9 1.20.4]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2023-29400"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Templates containing actions in unquoted HTML attributes (e.g. "attr={{.}}") executed with empty input can result in output with unexpected results when parsed due to HTML normalization rules. This may allow injection of arbitrary attributes into tags."</td>
+    <td>"fixed"</td>
+    <td>"[1.19.9 1.20.4]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2023-29403"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"On Unix platforms, the Go runtime does not behave differently when a binary is run with the setuid/setgid bits. This can be dangerous in certain cases, such as when dumping memory state, or assuming the status of standard i/o file descriptors. If a setuid/setgid binary is executed with standard I/O file descriptors closed, opening any files can result in unexpected content being read or written with elevated privileges. Similarly, if a setuid/setgid program is terminated, either via panic or signal, it may leak the contents of its registers."</td>
+    <td>"fixed"</td>
+    <td>"[1.19.10 1.20.5]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2023-39323"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Line directives ("//line") can be used to bypass the restrictions on "//go:cgo_" directives, allowing blocked linker and compiler flags to be passed during compilation. This can result in unexpected execution of arbitrary code when running "go build". The line directive requires the absolute path of the file in which the directive lives, which makes exploiting this issue significantly more complex."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.9 1.21.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2023-39325"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"A malicious HTTP/2 client which rapidly creates requests and immediately resets them can cause excessive server resource consumption. While the total number of requests is bounded by the http2.Server.MaxConcurrentStreams setting, resetting an in-progress request allows the attacker to create a new request while the existing one is still executing. With the fix applied, HTTP/2 servers now bound the number of simultaneously executing handler goroutines to the stream concurrency limit (MaxConcurrentStreams). New requests arriving when at the limit (which can only happen after the client has reset an existing, in-flight request) will be queued until a handler exits. If the request queue grows too large, the server will terminate the connection. This issue is also fixed in golang.org/x/net/http2 for users manually configuring HTTP/2. The default stream concurrency limit is 250 streams (requests) per HTTP/2 connection. This value may be adjusted using the golang.org/x/net/http2 package; see the Server.MaxConcurrentStreams setting and the ConfigureServer function."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.10 1.21.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2023-44487"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"The HTTP/2 protocol allows a denial of service (server resource consumption) because request cancellation can reset many streams quickly, as exploited in the wild in August through October 2023."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.10 1.21.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2023-45285"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Using go get to fetch a module with the ".git" suffix may unexpectedly fallback to the insecure "git://" protocol if the module is unavailable via the secure "https://" and "git+ssh://" protocols, even if GOINSECURE is not set for said module. This only affects users who are not using the module proxy and are fetching modules directly (i.e. GOPROXY=off)."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.12 1.21.5]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2023-45288"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"An attacker may cause an HTTP/2 endpoint to read arbitrary amounts of header data by sending an excessive number of CONTINUATION frames. Maintaining HPACK state requires parsing and processing all HEADERS and CONTINUATION frames on a connection. When a request's headers exceed MaxHeaderBytes, no memory is allocated to store the excess headers, but they are still parsed. This permits an attacker to cause an HTTP/2 endpoint to read arbitrary amounts of header data, all associated with a request which is going to be rejected. These headers can include Huffman-encoded data which is significantly more expensive for the receiver to decode than for an attacker to send. The fix sets a limit on the amount of excess header frames we will process before closing a connection."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.9 1.22.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2024-24784"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"The ParseAddressList function incorrectly handles comments (text within parentheses) within display names. Since this is a misalignment with conforming address parsers, it can result in different trust decisions being made by programs using different parsers."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.8 1.22.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2024-24791"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"The net/http HTTP/1.1 client mishandled the case where a server responds to a request with an "Expect: 100-continue" header with a non-informational (200 or higher) status. This mishandling could leave a client connection in an invalid state, where the next request sent on the connection will fail. An attacker sending a request to a net/http/httputil.ReverseProxy proxy can exploit this mishandling to cause a denial of service by sending "Expect: 100-continue" requests which elicit a non-informational response from the backend. Each such request leaves the proxy with an invalid connection, and causes one subsequent request using that connection to fail."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.12 1.22.5]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2024-34156"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Calling Decoder.Decode on a message which contains deeply nested structures can cause a panic due to stack exhaustion. This is a follow-up to CVE-2022-30635."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.7 1.23.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2024-34158"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Calling Parse on a "// +build" build tag line with deeply nested expressions can cause a panic due to stack exhaustion."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.7 1.23.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2023-29406"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The HTTP/1 client does not fully validate the contents of the Host header. A maliciously crafted Host header can inject additional headers or entire requests. With fix, the HTTP/1 client now refuses to send requests containing an invalid Request.Host or Request.URL.Host value."</td>
+    <td>"fixed"</td>
+    <td>"[1.19.11 1.20.6]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2023-29409"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Extremely large RSA keys in certificate chains can cause a client/server to expend significant CPU time verifying signatures. With fix, the size of RSA keys transmitted during handshakes is restricted to <= 8192 bits. Based on a survey of publicly trusted RSA keys, there are currently only three certificates in circulation with keys larger than this, and all three appear to be test certificates that are not actively deployed. It is possible there are larger keys in use in private PKIs, but we target the web PKI, so causing breakage here in the interests of increasing the default safety of users of crypto/tls seems reasonable."</td>
+    <td>"fixed"</td>
+    <td>"[1.19.12 1.20.7]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2023-39318"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The html/template package does not properly handle HTML-like "" comment tokens, nor hashbang "#!" comment tokens, in <script> contexts. This may cause the template parser to improperly interpret the contents of <script> contexts, causing actions to be improperly escaped. This may be leveraged to perform an XSS attack."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.8 1.21.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2023-39319"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The html/template package does not apply the proper rules for handling occurrences of "<script", "<!--", and "</script" within JS literals in <script> contexts. This may cause the template parser to improperly consider script contexts to be terminated early, causing actions to be improperly escaped. This could be leveraged to perform an XSS attack."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.8 1.21.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2023-39326"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"A malicious HTTP sender can use chunk extensions to cause a receiver reading from a request or response body to read many more bytes from the network than are in the body. A malicious HTTP client can further exploit this to cause a server to automatically read a large amount of data (up to about 1GiB) when a handler fails to read the entire body of a request. Chunk extensions are a little-used HTTP feature which permit including additional metadata in a request or response body sent using the chunked encoding. The net/http chunked encoding reader discards this metadata. A sender can exploit this by inserting a large metadata segment with each byte transferred. The chunk reader now produces an error if the ratio of real body to encoded bytes grows too small."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.12 1.21.5]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2023-45289"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"When following an HTTP redirect to a domain which is not a subdomain match or exact match of the initial domain, an http.Client does not forward sensitive headers such as "Authorization" or "Cookie". For example, a redirect from foo.com to www.foo.com will forward the Authorization header, but a redirect to bar.com will not. A maliciously crafted HTTP redirect could cause sensitive headers to be unexpectedly forwarded."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.8 1.22.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2023-45290"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"When parsing a multipart form (either explicitly with Request.ParseMultipartForm or implicitly with Request.FormValue, Request.PostFormValue, or Request.FormFile), limits on the total size of the parsed form were not applied to the memory consumed while reading a single form line. This permits a maliciously crafted input containing very long lines to cause allocation of arbitrarily large amounts of memory, potentially leading to memory exhaustion. With fix, the ParseMultipartForm function now correctly limits the maximum size of form lines."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.8 1.22.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2024-24783"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Verifying a certificate chain which contains a certificate with an unknown public key algorithm will cause Certificate.Verify to panic. This affects all crypto/tls clients, and servers that set Config.ClientAuth to VerifyClientCertIfGiven or RequireAndVerifyClientCert. The default behavior is for TLS servers to not verify client certificates."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.8 1.22.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2024-24785"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"If errors returned from MarshalJSON methods contain user controlled data, they may be used to break the contextual auto-escaping behavior of the html/template package, allowing for subsequent actions to inject unexpected content into templates."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.8 1.22.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2024-24787"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"On Darwin, building a Go module which contains CGO can trigger arbitrary code execution when using the Apple version of ld, due to usage of the -lto_library flag in a "#cgo LDFLAGS" directive."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.10 1.22.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2024-24789"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The archive/zip package's handling of certain types of invalid zip files differs from the behavior of most zip implementations. This misalignment could be exploited to create an zip file with contents that vary depending on the implementation reading the file. The archive/zip package now rejects files containing these errors."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.11 1.22.4]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2024-34155"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Calling any of the Parse functions on Go source code which contains deeply nested literals can cause a panic due to stack exhaustion."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.7 1.23.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2024-45336"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The HTTP client drops sensitive headers after following a cross-domain redirect. For example, a request to a.com/ containing an Authorization header which is redirected to b.com/ will not send that header to b.com. In the event that the client received a subsequent same-domain redirect, however, the sensitive headers would be restored. For example, a chain of redirects from a.com/, to b.com/1, and finally to b.com/2 would incorrectly send the Authorization header to b.com/2."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2024-45341"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"A certificate with a URI which has a IPv6 address with a zone ID may incorrectly satisfy a URI name constraint that applies to the certificate chain. Certificates containing URIs are not permitted in the web PKI, so this only affects users of private PKIs which make use of URIs."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2025-22866"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Due to the usage of a variable time instruction in the assembly implementation of an internal function, a small number of bits of secret scalars are leaked on the ppc64le architecture. Due to the way this function is used, we do not believe this leakage is enough to allow recovery of the private key when P-256 is used in any well known protocols."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.12 1.23.6 1.24.0-rc.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/op"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2023-24531"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"Command go env is documented as outputting a shell script containing the Go environment. However, go env doesn't sanitize values, so executing its output as a shell script can cause various bad bahaviors, including executing arbitrary commands or inserting new environment variables. This issue is relatively minor because, in general, if an attacker can set arbitrary environment variables on a system, they have better attack vectors than making "go env" print them out."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.0-0]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2024-24790"</td>
+    
+    <td style="color: #fa0000;" >Critical</td>
+    
+    <td>"The various Is methods (IsPrivate, IsLoopback, etc) did not work as expected for IPv4-mapped IPv6 addresses, returning false for addresses which would return true in their traditional IPv4 forms."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.11 1.22.4]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2023-39323"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Line directives ("//line") can be used to bypass the restrictions on "//go:cgo_" directives, allowing blocked linker and compiler flags to be passed during compilation. This can result in unexpected execution of arbitrary code when running "go build". The line directive requires the absolute path of the file in which the directive lives, which makes exploiting this issue significantly more complex."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.9 1.21.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2023-39325"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"A malicious HTTP/2 client which rapidly creates requests and immediately resets them can cause excessive server resource consumption. While the total number of requests is bounded by the http2.Server.MaxConcurrentStreams setting, resetting an in-progress request allows the attacker to create a new request while the existing one is still executing. With the fix applied, HTTP/2 servers now bound the number of simultaneously executing handler goroutines to the stream concurrency limit (MaxConcurrentStreams). New requests arriving when at the limit (which can only happen after the client has reset an existing, in-flight request) will be queued until a handler exits. If the request queue grows too large, the server will terminate the connection. This issue is also fixed in golang.org/x/net/http2 for users manually configuring HTTP/2. The default stream concurrency limit is 250 streams (requests) per HTTP/2 connection. This value may be adjusted using the golang.org/x/net/http2 package; see the Server.MaxConcurrentStreams setting and the ConfigureServer function."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.10 1.21.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2023-44487"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"The HTTP/2 protocol allows a denial of service (server resource consumption) because request cancellation can reset many streams quickly, as exploited in the wild in August through October 2023."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.10 1.21.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2023-45285"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Using go get to fetch a module with the ".git" suffix may unexpectedly fallback to the insecure "git://" protocol if the module is unavailable via the secure "https://" and "git+ssh://" protocols, even if GOINSECURE is not set for said module. This only affects users who are not using the module proxy and are fetching modules directly (i.e. GOPROXY=off)."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.12 1.21.5]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2023-45288"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"An attacker may cause an HTTP/2 endpoint to read arbitrary amounts of header data by sending an excessive number of CONTINUATION frames. Maintaining HPACK state requires parsing and processing all HEADERS and CONTINUATION frames on a connection. When a request's headers exceed MaxHeaderBytes, no memory is allocated to store the excess headers, but they are still parsed. This permits an attacker to cause an HTTP/2 endpoint to read arbitrary amounts of header data, all associated with a request which is going to be rejected. These headers can include Huffman-encoded data which is significantly more expensive for the receiver to decode than for an attacker to send. The fix sets a limit on the amount of excess header frames we will process before closing a connection."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.9 1.22.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2024-24784"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"The ParseAddressList function incorrectly handles comments (text within parentheses) within display names. Since this is a misalignment with conforming address parsers, it can result in different trust decisions being made by programs using different parsers."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.8 1.22.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2024-24791"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"The net/http HTTP/1.1 client mishandled the case where a server responds to a request with an "Expect: 100-continue" header with a non-informational (200 or higher) status. This mishandling could leave a client connection in an invalid state, where the next request sent on the connection will fail. An attacker sending a request to a net/http/httputil.ReverseProxy proxy can exploit this mishandling to cause a denial of service by sending "Expect: 100-continue" requests which elicit a non-informational response from the backend. Each such request leaves the proxy with an invalid connection, and causes one subsequent request using that connection to fail."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.12 1.22.5]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2024-34156"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Calling Decoder.Decode on a message which contains deeply nested structures can cause a panic due to stack exhaustion. This is a follow-up to CVE-2022-30635."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.7 1.23.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2024-34158"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Calling Parse on a "// +build" build tag line with deeply nested expressions can cause a panic due to stack exhaustion."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.7 1.23.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2023-29406"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The HTTP/1 client does not fully validate the contents of the Host header. A maliciously crafted Host header can inject additional headers or entire requests. With fix, the HTTP/1 client now refuses to send requests containing an invalid Request.Host or Request.URL.Host value."</td>
+    <td>"fixed"</td>
+    <td>"[1.19.11 1.20.6]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2023-29409"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Extremely large RSA keys in certificate chains can cause a client/server to expend significant CPU time verifying signatures. With fix, the size of RSA keys transmitted during handshakes is restricted to <= 8192 bits. Based on a survey of publicly trusted RSA keys, there are currently only three certificates in circulation with keys larger than this, and all three appear to be test certificates that are not actively deployed. It is possible there are larger keys in use in private PKIs, but we target the web PKI, so causing breakage here in the interests of increasing the default safety of users of crypto/tls seems reasonable."</td>
+    <td>"fixed"</td>
+    <td>"[1.19.12 1.20.7]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2023-39318"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The html/template package does not properly handle HTML-like "" comment tokens, nor hashbang "#!" comment tokens, in <script> contexts. This may cause the template parser to improperly interpret the contents of <script> contexts, causing actions to be improperly escaped. This may be leveraged to perform an XSS attack."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.8 1.21.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2023-39319"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The html/template package does not apply the proper rules for handling occurrences of "<script", "<!--", and "</script" within JS literals in <script> contexts. This may cause the template parser to improperly consider script contexts to be terminated early, causing actions to be improperly escaped. This could be leveraged to perform an XSS attack."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.8 1.21.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2023-39326"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"A malicious HTTP sender can use chunk extensions to cause a receiver reading from a request or response body to read many more bytes from the network than are in the body. A malicious HTTP client can further exploit this to cause a server to automatically read a large amount of data (up to about 1GiB) when a handler fails to read the entire body of a request. Chunk extensions are a little-used HTTP feature which permit including additional metadata in a request or response body sent using the chunked encoding. The net/http chunked encoding reader discards this metadata. A sender can exploit this by inserting a large metadata segment with each byte transferred. The chunk reader now produces an error if the ratio of real body to encoded bytes grows too small."</td>
+    <td>"fixed"</td>
+    <td>"[1.20.12 1.21.5]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2023-45289"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"When following an HTTP redirect to a domain which is not a subdomain match or exact match of the initial domain, an http.Client does not forward sensitive headers such as "Authorization" or "Cookie". For example, a redirect from foo.com to www.foo.com will forward the Authorization header, but a redirect to bar.com will not. A maliciously crafted HTTP redirect could cause sensitive headers to be unexpectedly forwarded."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.8 1.22.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2023-45290"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"When parsing a multipart form (either explicitly with Request.ParseMultipartForm or implicitly with Request.FormValue, Request.PostFormValue, or Request.FormFile), limits on the total size of the parsed form were not applied to the memory consumed while reading a single form line. This permits a maliciously crafted input containing very long lines to cause allocation of arbitrarily large amounts of memory, potentially leading to memory exhaustion. With fix, the ParseMultipartForm function now correctly limits the maximum size of form lines."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.8 1.22.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2024-24783"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Verifying a certificate chain which contains a certificate with an unknown public key algorithm will cause Certificate.Verify to panic. This affects all crypto/tls clients, and servers that set Config.ClientAuth to VerifyClientCertIfGiven or RequireAndVerifyClientCert. The default behavior is for TLS servers to not verify client certificates."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.8 1.22.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2024-24785"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"If errors returned from MarshalJSON methods contain user controlled data, they may be used to break the contextual auto-escaping behavior of the html/template package, allowing for subsequent actions to inject unexpected content into templates."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.8 1.22.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2024-24787"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"On Darwin, building a Go module which contains CGO can trigger arbitrary code execution when using the Apple version of ld, due to usage of the -lto_library flag in a "#cgo LDFLAGS" directive."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.10 1.22.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2024-24789"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The archive/zip package's handling of certain types of invalid zip files differs from the behavior of most zip implementations. This misalignment could be exploited to create an zip file with contents that vary depending on the implementation reading the file. The archive/zip package now rejects files containing these errors."</td>
+    <td>"fixed"</td>
+    <td>"[1.21.11 1.22.4]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2024-34155"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Calling any of the Parse functions on Go source code which contains deeply nested literals can cause a panic due to stack exhaustion."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.7 1.23.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2024-45336"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The HTTP client drops sensitive headers after following a cross-domain redirect. For example, a request to a.com/ containing an Authorization header which is redirected to b.com/ will not send that header to b.com. In the event that the client received a subsequent same-domain redirect, however, the sensitive headers would be restored. For example, a chain of redirects from a.com/, to b.com/1, and finally to b.com/2 would incorrectly send the Authorization header to b.com/2."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2024-45341"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"A certificate with a URI which has a IPv6 address with a zone ID may incorrectly satisfy a URI name constraint that applies to the certificate chain. Certificates containing URIs are not permitted in the web PKI, so this only affects users of private PKIs which make use of URIs."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2025-22866"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Due to the usage of a variable time instruction in the assembly implementation of an internal function, a small number of bits of secret scalars are leaked on the ppc64le architecture. Due to the way this function is used, we do not believe this leakage is enough to allow recovery of the private key when P-256 is used in any well known protocols."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.12 1.23.6 1.24.0-rc.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.20.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.krew/store/krew/v0.4.4/krew"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.22.12"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/k3d"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/crane"</td>
+    <td>"CVE-2024-34156"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Calling Decoder.Decode on a message which contains deeply nested structures can cause a panic due to stack exhaustion. This is a follow-up to CVE-2022-30635."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.7 1.23.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/crane"</td>
+    <td>"CVE-2024-34158"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Calling Parse on a "// +build" build tag line with deeply nested expressions can cause a panic due to stack exhaustion."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.7 1.23.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/crane"</td>
+    <td>"CVE-2024-34155"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Calling any of the Parse functions on Go source code which contains deeply nested literals can cause a panic due to stack exhaustion."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.7 1.23.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/crane"</td>
+    <td>"CVE-2024-45336"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The HTTP client drops sensitive headers after following a cross-domain redirect. For example, a request to a.com/ containing an Authorization header which is redirected to b.com/ will not send that header to b.com. In the event that the client received a subsequent same-domain redirect, however, the sensitive headers would be restored. For example, a chain of redirects from a.com/, to b.com/1, and finally to b.com/2 would incorrectly send the Authorization header to b.com/2."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/crane"</td>
+    <td>"CVE-2024-45341"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"A certificate with a URI which has a IPv6 address with a zone ID may incorrectly satisfy a URI name constraint that applies to the certificate chain. Certificates containing URIs are not permitted in the web PKI, so this only affects users of private PKIs which make use of URIs."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/crane"</td>
+    <td>"CVE-2025-22866"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Due to the usage of a variable time instruction in the assembly implementation of an internal function, a small number of bits of secret scalars are leaked on the ppc64le architecture. Due to the way this function is used, we do not believe this leakage is enough to allow recovery of the private key when P-256 is used in any well known protocols."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.12 1.23.6 1.24.0-rc.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.0"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/crane"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.1"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/docker-proxy"</td>
+    <td>"CVE-2024-45336"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The HTTP client drops sensitive headers after following a cross-domain redirect. For example, a request to a.com/ containing an Authorization header which is redirected to b.com/ will not send that header to b.com. In the event that the client received a subsequent same-domain redirect, however, the sensitive headers would be restored. For example, a chain of redirects from a.com/, to b.com/1, and finally to b.com/2 would incorrectly send the Authorization header to b.com/2."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.1"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/docker"</td>
+    <td>"CVE-2024-45336"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The HTTP client drops sensitive headers after following a cross-domain redirect. For example, a request to a.com/ containing an Authorization header which is redirected to b.com/ will not send that header to b.com. In the event that the client received a subsequent same-domain redirect, however, the sensitive headers would be restored. For example, a chain of redirects from a.com/, to b.com/1, and finally to b.com/2 would incorrectly send the Authorization header to b.com/2."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.1"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/dockerd"</td>
+    <td>"CVE-2024-45336"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The HTTP client drops sensitive headers after following a cross-domain redirect. For example, a request to a.com/ containing an Authorization header which is redirected to b.com/ will not send that header to b.com. In the event that the client received a subsequent same-domain redirect, however, the sensitive headers would be restored. For example, a chain of redirects from a.com/, to b.com/1, and finally to b.com/2 would incorrectly send the Authorization header to b.com/2."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.1"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/docker"</td>
+    <td>"CVE-2024-45341"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"A certificate with a URI which has a IPv6 address with a zone ID may incorrectly satisfy a URI name constraint that applies to the certificate chain. Certificates containing URIs are not permitted in the web PKI, so this only affects users of private PKIs which make use of URIs."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.1"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/dockerd"</td>
+    <td>"CVE-2024-45341"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"A certificate with a URI which has a IPv6 address with a zone ID may incorrectly satisfy a URI name constraint that applies to the certificate chain. Certificates containing URIs are not permitted in the web PKI, so this only affects users of private PKIs which make use of URIs."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.1"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/docker-proxy"</td>
+    <td>"CVE-2024-45341"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"A certificate with a URI which has a IPv6 address with a zone ID may incorrectly satisfy a URI name constraint that applies to the certificate chain. Certificates containing URIs are not permitted in the web PKI, so this only affects users of private PKIs which make use of URIs."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.1"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/docker"</td>
+    <td>"CVE-2025-22866"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Due to the usage of a variable time instruction in the assembly implementation of an internal function, a small number of bits of secret scalars are leaked on the ppc64le architecture. Due to the way this function is used, we do not believe this leakage is enough to allow recovery of the private key when P-256 is used in any well known protocols."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.12 1.23.6 1.24.0-rc.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.1"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/docker-proxy"</td>
+    <td>"CVE-2025-22866"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Due to the usage of a variable time instruction in the assembly implementation of an internal function, a small number of bits of secret scalars are leaked on the ppc64le architecture. Due to the way this function is used, we do not believe this leakage is enough to allow recovery of the private key when P-256 is used in any well known protocols."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.12 1.23.6 1.24.0-rc.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.1"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/dockerd"</td>
+    <td>"CVE-2025-22866"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Due to the usage of a variable time instruction in the assembly implementation of an internal function, a small number of bits of secret scalars are leaked on the ppc64le architecture. Due to the way this function is used, we do not believe this leakage is enough to allow recovery of the private key when P-256 is used in any well known protocols."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.12 1.23.6 1.24.0-rc.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.1"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/docker"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.1"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/docker-proxy"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.1"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/dockerd"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.2"</td>
+    <td>"go-module"</td>
+    <td>"/usr/libexec/docker/cli-plugins/docker-buildx"</td>
+    <td>"CVE-2024-45336"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The HTTP client drops sensitive headers after following a cross-domain redirect. For example, a request to a.com/ containing an Authorization header which is redirected to b.com/ will not send that header to b.com. In the event that the client received a subsequent same-domain redirect, however, the sensitive headers would be restored. For example, a chain of redirects from a.com/, to b.com/1, and finally to b.com/2 would incorrectly send the Authorization header to b.com/2."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.2"</td>
+    <td>"go-module"</td>
+    <td>"/usr/libexec/docker/cli-plugins/docker-buildx"</td>
+    <td>"CVE-2024-45341"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"A certificate with a URI which has a IPv6 address with a zone ID may incorrectly satisfy a URI name constraint that applies to the certificate chain. Certificates containing URIs are not permitted in the web PKI, so this only affects users of private PKIs which make use of URIs."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.2"</td>
+    <td>"go-module"</td>
+    <td>"/usr/libexec/docker/cli-plugins/docker-buildx"</td>
+    <td>"CVE-2025-22866"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Due to the usage of a variable time instruction in the assembly implementation of an internal function, a small number of bits of secret scalars are leaked on the ppc64le architecture. Due to the way this function is used, we do not believe this leakage is enough to allow recovery of the private key when P-256 is used in any well known protocols."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.12 1.23.6 1.24.0-rc.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.2"</td>
+    <td>"go-module"</td>
+    <td>"/usr/libexec/docker/cli-plugins/docker-buildx"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/argocd"</td>
+    <td>"CVE-2024-45336"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The HTTP client drops sensitive headers after following a cross-domain redirect. For example, a request to a.com/ containing an Authorization header which is redirected to b.com/ will not send that header to b.com. In the event that the client received a subsequent same-domain redirect, however, the sensitive headers would be restored. For example, a chain of redirects from a.com/, to b.com/1, and finally to b.com/2 would incorrectly send the Authorization header to b.com/2."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.3"</td>
+    <td>"go-module"</td>
+    <td>"/usr/libexec/docker/cli-plugins/docker-compose"</td>
+    <td>"CVE-2024-45336"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The HTTP client drops sensitive headers after following a cross-domain redirect. For example, a request to a.com/ containing an Authorization header which is redirected to b.com/ will not send that header to b.com. In the event that the client received a subsequent same-domain redirect, however, the sensitive headers would be restored. For example, a chain of redirects from a.com/, to b.com/1, and finally to b.com/2 would incorrectly send the Authorization header to b.com/2."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/terraform"</td>
+    <td>"CVE-2024-45336"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The HTTP client drops sensitive headers after following a cross-domain redirect. For example, a request to a.com/ containing an Authorization header which is redirected to b.com/ will not send that header to b.com. In the event that the client received a subsequent same-domain redirect, however, the sensitive headers would be restored. For example, a chain of redirects from a.com/, to b.com/1, and finally to b.com/2 would incorrectly send the Authorization header to b.com/2."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/argocd"</td>
+    <td>"CVE-2024-45341"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"A certificate with a URI which has a IPv6 address with a zone ID may incorrectly satisfy a URI name constraint that applies to the certificate chain. Certificates containing URIs are not permitted in the web PKI, so this only affects users of private PKIs which make use of URIs."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/terraform"</td>
+    <td>"CVE-2024-45341"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"A certificate with a URI which has a IPv6 address with a zone ID may incorrectly satisfy a URI name constraint that applies to the certificate chain. Certificates containing URIs are not permitted in the web PKI, so this only affects users of private PKIs which make use of URIs."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.3"</td>
+    <td>"go-module"</td>
+    <td>"/usr/libexec/docker/cli-plugins/docker-compose"</td>
+    <td>"CVE-2024-45341"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"A certificate with a URI which has a IPv6 address with a zone ID may incorrectly satisfy a URI name constraint that applies to the certificate chain. Certificates containing URIs are not permitted in the web PKI, so this only affects users of private PKIs which make use of URIs."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/terraform"</td>
+    <td>"CVE-2025-22866"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Due to the usage of a variable time instruction in the assembly implementation of an internal function, a small number of bits of secret scalars are leaked on the ppc64le architecture. Due to the way this function is used, we do not believe this leakage is enough to allow recovery of the private key when P-256 is used in any well known protocols."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.12 1.23.6 1.24.0-rc.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.3"</td>
+    <td>"go-module"</td>
+    <td>"/usr/libexec/docker/cli-plugins/docker-compose"</td>
+    <td>"CVE-2025-22866"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Due to the usage of a variable time instruction in the assembly implementation of an internal function, a small number of bits of secret scalars are leaked on the ppc64le architecture. Due to the way this function is used, we do not believe this leakage is enough to allow recovery of the private key when P-256 is used in any well known protocols."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.12 1.23.6 1.24.0-rc.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/argocd"</td>
+    <td>"CVE-2025-22866"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Due to the usage of a variable time instruction in the assembly implementation of an internal function, a small number of bits of secret scalars are leaked on the ppc64le architecture. Due to the way this function is used, we do not believe this leakage is enough to allow recovery of the private key when P-256 is used in any well known protocols."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.12 1.23.6 1.24.0-rc.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/terraform"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.3"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/argocd"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.3"</td>
+    <td>"go-module"</td>
+    <td>"/usr/libexec/docker/cli-plugins/docker-compose"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.4"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/vhs"</td>
+    <td>"CVE-2024-45336"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The HTTP client drops sensitive headers after following a cross-domain redirect. For example, a request to a.com/ containing an Authorization header which is redirected to b.com/ will not send that header to b.com. In the event that the client received a subsequent same-domain redirect, however, the sensitive headers would be restored. For example, a chain of redirects from a.com/, to b.com/1, and finally to b.com/2 would incorrectly send the Authorization header to b.com/2."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.4"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/yq"</td>
+    <td>"CVE-2024-45336"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The HTTP client drops sensitive headers after following a cross-domain redirect. For example, a request to a.com/ containing an Authorization header which is redirected to b.com/ will not send that header to b.com. In the event that the client received a subsequent same-domain redirect, however, the sensitive headers would be restored. For example, a chain of redirects from a.com/, to b.com/1, and finally to b.com/2 would incorrectly send the Authorization header to b.com/2."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.4"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/yq"</td>
+    <td>"CVE-2024-45341"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"A certificate with a URI which has a IPv6 address with a zone ID may incorrectly satisfy a URI name constraint that applies to the certificate chain. Certificates containing URIs are not permitted in the web PKI, so this only affects users of private PKIs which make use of URIs."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.4"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/vhs"</td>
+    <td>"CVE-2024-45341"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"A certificate with a URI which has a IPv6 address with a zone ID may incorrectly satisfy a URI name constraint that applies to the certificate chain. Certificates containing URIs are not permitted in the web PKI, so this only affects users of private PKIs which make use of URIs."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.4"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/yq"</td>
+    <td>"CVE-2025-22866"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Due to the usage of a variable time instruction in the assembly implementation of an internal function, a small number of bits of secret scalars are leaked on the ppc64le architecture. Due to the way this function is used, we do not believe this leakage is enough to allow recovery of the private key when P-256 is used in any well known protocols."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.12 1.23.6 1.24.0-rc.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.4"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/vhs"</td>
+    <td>"CVE-2025-22866"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Due to the usage of a variable time instruction in the assembly implementation of an internal function, a small number of bits of secret scalars are leaked on the ppc64le architecture. Due to the way this function is used, we do not believe this leakage is enough to allow recovery of the private key when P-256 is used in any well known protocols."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.12 1.23.6 1.24.0-rc.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.4"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/yq"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.4"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/vhs"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/terragrunt"</td>
+    <td>"CVE-2025-22866"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Due to the usage of a variable time instruction in the assembly implementation of an internal function, a small number of bits of secret scalars are leaked on the ppc64le architecture. Due to the way this function is used, we do not believe this leakage is enough to allow recovery of the private key when P-256 is used in any well known protocols."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.12 1.23.6 1.24.0-rc.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.5"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/terragrunt"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.6"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/runc"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.6"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kubectl"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.6"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/k3s"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.6"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/dagger"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.6"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kind"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.7"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/helm"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.7"</td>
+    <td>"go-module"</td>
+    <td>"/usr/local/bin/arkade"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.7"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/containerd-shim-runc-v1"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.7"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/containerd-shim-runc-v2"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.7"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/containerd-stress"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.7"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/buildx"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.7"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/ctr"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.7"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/kubescape"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.7"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/containerd-shim"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23.7"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/istioctl"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23rc2"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/docker-compose"</td>
+    <td>"CVE-2024-34156"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Calling Decoder.Decode on a message which contains deeply nested structures can cause a panic due to stack exhaustion. This is a follow-up to CVE-2022-30635."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.7 1.23.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23rc2"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/docker-compose"</td>
+    <td>"CVE-2024-34158"</td>
+    
+    <td style="color: #ea6c3e;" >High</td>
+    
+    <td>"Calling Parse on a "// +build" build tag line with deeply nested expressions can cause a panic due to stack exhaustion."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.7 1.23.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23rc2"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/docker-compose"</td>
+    <td>"CVE-2024-34155"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Calling any of the Parse functions on Go source code which contains deeply nested literals can cause a panic due to stack exhaustion."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.7 1.23.1]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23rc2"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/docker-compose"</td>
+    <td>"CVE-2024-45336"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"The HTTP client drops sensitive headers after following a cross-domain redirect. For example, a request to a.com/ containing an Authorization header which is redirected to b.com/ will not send that header to b.com. In the event that the client received a subsequent same-domain redirect, however, the sensitive headers would be restored. For example, a chain of redirects from a.com/, to b.com/1, and finally to b.com/2 would incorrectly send the Authorization header to b.com/2."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23rc2"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/docker-compose"</td>
+    <td>"CVE-2024-45341"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"A certificate with a URI which has a IPv6 address with a zone ID may incorrectly satisfy a URI name constraint that applies to the certificate chain. Certificates containing URIs are not permitted in the web PKI, so this only affects users of private PKIs which make use of URIs."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.11 1.23.5 1.24.0-rc.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23rc2"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/docker-compose"</td>
+    <td>"CVE-2025-22866"</td>
+    
+    <td style="color: #e5c021;">Medium</td>
+    
+    <td>"Due to the usage of a variable time instruction in the assembly implementation of an internal function, a small number of bits of secret scalars are leaked on the ppc64le architecture. Due to the way this function is used, we do not believe this leakage is enough to allow recovery of the private key when P-256 is used in any well known protocols."</td>
+    <td>"fixed"</td>
+    <td>"[1.22.12 1.23.6 1.24.0-rc.3]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.23rc2"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/docker-compose"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.24.1"</td>
+    <td>"go-module"</td>
+    <td>"/usr/sbin/tailscaled"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.24.1"</td>
+    <td>"go-module"</td>
+    <td>"/usr/bin/tailscale"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.24.1"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/trivy"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.24.1"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/krew"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+  <tr>
+    <td>"stdlib"</td>
+    <td>"go1.24.1"</td>
+    <td>"go-module"</td>
+    <td>"/root/.arkade/bin/k9s"</td>
+    <td>"CVE-2025-22871"</td>
+    
+    <td>Unknown</td>
+    
+    <td>"The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."</td>
+    <td>"fixed"</td>
+    <td>"[1.23.8 1.24.2]"</td>
+  </tr>
+</table>
+</body>
+
+</html>

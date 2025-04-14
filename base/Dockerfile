@@ -7,7 +7,7 @@ LABEL maintainer="Dmytro Rashko <drashko@me.com>"
 
 ## Environment variables required for this build (do NOT change)
 
-ARG IMAGE_VER=4.4.2
+ARG IMAGE_VER=4.4.3
 ARG TARGETARCH
 ARG TARGETVARIANT
 ARG TARGETPLATFORM
